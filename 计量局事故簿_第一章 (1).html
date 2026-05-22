@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>计量局事故簿 · 第一章</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700;900&family=ZCOOL+KuaiLe&display=swap');
+:root{
+  --ink:#241f2e;--paper:#f3ead6;--paper2:#e7d9bb;--rose:#c84a63;--rose2:#92293f;
+  --gold:#bf9233;--teal:#33756a;--line:#c8b690;--sh:rgba(50,35,25,.22);--blue:#3a5a8c;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Serif SC',serif;color:var(--ink);min-height:100vh;
+  background:radial-gradient(circle at 15% 5%,rgba(200,74,99,.10),transparent 42%),
+             radial-gradient(circle at 85% 90%,rgba(191,146,51,.12),transparent 45%),var(--paper);
+  display:flex;justify-content:center;padding:18px 10px 70px;}
+.wrap{width:100%;max-width:720px;}
+.title{text-align:center;margin-bottom:12px;}
+.title h1{font-family:'ZCOOL KuaiLe';font-size:28px;color:var(--rose2);text-shadow:2px 2px 0 var(--paper2);}
+.title p{font-size:11px;color:var(--teal);letter-spacing:3px;margin-top:2px;}
+.scr{background:linear-gradient(180deg,#fffaef,#f1e6cd);border:2px solid var(--line);border-radius:16px;
+  box-shadow:0 14px 38px var(--sh),inset 0 0 0 5px rgba(255,255,255,.4);padding:20px 18px;position:relative;overflow:hidden;}
+.scr::after{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--rose),var(--gold),var(--teal));}
+
+.hud{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+.hud .ch{font-family:'ZCOOL KuaiLe';color:var(--rose2);font-size:15px;}
+.tags{display:flex;gap:6px;flex-wrap:wrap;}
+.tag{font-size:11.5px;background:var(--paper2);border:1px solid var(--line);border-radius:18px;padding:3px 10px;white-space:nowrap;}
+.tag b{color:var(--rose2);}
+.tag.cl{cursor:pointer;}
+.tag.cl:hover{background:#fdeccb;}
+
+.narr{background:rgba(255,255,255,.5);border:1px dashed var(--line);border-radius:10px;
+  padding:12px 14px;font-size:14px;line-height:1.75;margin-bottom:12px;animation:fade .4s;}
+.narr .loc{font-size:12px;color:var(--teal);font-style:italic;display:block;margin-bottom:5px;}
+.narr.big{text-align:center;}
+
+@keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+.line{display:flex;gap:9px;margin-bottom:9px;align-items:flex-start;animation:fade .4s;}
+.av{width:36px;height:36px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 3px 7px var(--sh);}
+.bu{background:linear-gradient(135deg,#46466a,#241f2e);}
+.ri{background:linear-gradient(135deg,#dd86a0,#c84a63);}
+.xue{background:linear-gradient(135deg,#7bb6a8,#33756a);}
+.mi{background:linear-gradient(135deg,#e6c267,#bf9233);}
+.npc{background:linear-gradient(135deg,#9a8fb0,#6a5f82);}
+.sys{background:#1c1c28;}
+.bb{background:#fff;border:1px solid var(--line);border-radius:13px;padding:9px 13px;font-size:14px;line-height:1.62;flex:1;box-shadow:0 2px 5px rgba(0,0,0,.05);}
+.bb .w{display:block;font-size:11px;color:var(--rose2);font-weight:700;margin-bottom:2px;letter-spacing:1px;}
+.bb.s{background:#1c1c28;color:#f3ead6;border-color:#1c1c28;font-size:13.5px;}
+.bb.s .w{color:var(--gold);}
+
+.evid{background:linear-gradient(180deg,#fff8ea,#fdeccb);border:1px solid var(--gold);border-left:5px solid var(--gold);
+  border-radius:8px;padding:10px 13px;margin:9px 0;font-size:13.5px;line-height:1.68;animation:fade .4s;}
+.evid .et{font-family:'ZCOOL KuaiLe';color:#7a5a14;font-size:14px;display:block;margin-bottom:4px;}
+.evid table{width:100%;border-collapse:collapse;margin-top:5px;font-size:13px;}
+.evid td{border:1px solid #d9c187;padding:4px 8px;vertical-align:top;}
+.evid td:first-child{background:#fbeecb;font-weight:500;width:40%;}
+
+.invt{font-size:13px;color:var(--teal);margin:7px 0 8px;font-weight:500;}
+.acts{display:flex;flex-direction:column;gap:8px;}
+.act{text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:10px 13px;font-size:14px;cursor:pointer;font-family:inherit;color:var(--ink);transition:.15s;line-height:1.5;}
+.act:hover{border-color:var(--teal);background:#eef6f3;transform:translateX(3px);}
+.act.used{opacity:.5;cursor:default;border-style:dashed;}
+.act .ai{color:var(--teal);font-size:12px;}
+
+.dec{background:rgba(255,255,255,.7);border:2px solid var(--rose);border-radius:13px;padding:14px;margin-top:10px;animation:fade .4s;}
+.dec .dh{font-weight:700;color:var(--rose2);margin-bottom:11px;font-size:15px;line-height:1.5;}
+.opt{text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:10px 13px;font-size:14px;cursor:pointer;font-family:inherit;color:var(--ink);transition:.15s;width:100%;margin-bottom:8px;line-height:1.55;}
+.opt:hover{border-color:var(--rose);background:#fdf1f3;transform:translateX(3px);}
+.opt:disabled{cursor:default;}
+.opt.ok{background:#e3f3ec;border-color:var(--teal);color:var(--teal);font-weight:600;}
+.opt.no{background:#fbe3e8;border-color:var(--rose);color:var(--rose2);}
+.opt.dim{opacity:.4;}
+
+/* 计算器/输入 */
+.calc{background:#f7f1e2;border:1px dashed var(--teal);border-radius:10px;padding:12px;margin:10px 0;font-size:13.5px;line-height:1.7;}
+.calc input{font-family:inherit;font-size:15px;width:90px;padding:5px 8px;border:1.5px solid var(--line);border-radius:7px;margin:0 4px;}
+.calc .cbtn{background:var(--teal);color:#fff;border:none;border-radius:7px;padding:6px 14px;font-family:inherit;cursor:pointer;font-size:14px;}
+
+.res{margin-top:12px;padding:13px 15px;border-radius:10px;font-size:14px;line-height:1.7;animation:fade .35s;}
+.res.g{background:#e3f3ec;border:1px solid var(--teal);color:#1f5249;}
+.res.b{background:#fbe3e8;border:1px solid var(--rose);color:var(--rose2);}
+.res.n{background:#eef1f7;border:1px solid var(--blue);color:#2c4a78;}
+.res .rt{font-weight:700;display:block;margin-bottom:4px;}
+
+.kp{background:linear-gradient(180deg,#fff6e6,#ffeac6);border-left:4px solid var(--gold);border-radius:6px;padding:10px 13px;margin-top:10px;font-size:13px;line-height:1.7;color:#684c12;}
+.kp b{color:var(--rose2);}
+
+.btn{margin-top:13px;width:100%;padding:12px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--rose),var(--rose2));color:#fff;font-family:'ZCOOL KuaiLe';font-size:16px;letter-spacing:2px;cursor:pointer;box-shadow:0 6px 15px rgba(146,41,63,.4);transition:transform .12s;}
+.btn:hover{transform:translateY(-2px);}
+.btn.ghost{background:var(--paper2);color:var(--ink);box-shadow:none;border:1px solid var(--line);}
+.btn.teal{background:linear-gradient(135deg,#4a9587,var(--teal));box-shadow:0 6px 15px rgba(51,117,106,.4);}
+
+.startc{text-align:center;}
+.startc .em{font-size:48px;}
+.startc h2{font-family:'ZCOOL KuaiLe';color:var(--rose2);font-size:22px;margin:6px 0;}
+.startc p{font-size:13.5px;line-height:1.85;color:#5a4a36;margin:9px 4px;}
+.cast{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0;}
+.cast .c{font-size:11.5px;background:var(--paper2);border:1px solid var(--line);border-radius:10px;padding:7px 9px;width:150px;text-align:left;}
+.cast .c .e{font-size:20px;}
+.note{font-size:12px;color:#8a7a60;margin-top:12px;font-style:italic;line-height:1.6;}
+
+.casebar{display:flex;gap:5px;flex-wrap:wrap;margin:10px 0;justify-content:center;}
+.casebar .dot{width:11px;height:11px;border-radius:50%;background:var(--paper2);border:1px solid var(--line);}
+.casebar .dot.done{background:var(--teal);}
+.casebar .dot.now{background:var(--rose);box-shadow:0 0 0 3px rgba(200,74,99,.25);}
+
+.modal{position:fixed;inset:0;background:rgba(30,20,25,.55);display:flex;align-items:center;justify-content:center;z-index:50;padding:20px;animation:fade .25s;}
+.modal .box{background:var(--paper);border:2px solid var(--gold);border-radius:14px;max-width:440px;width:100%;max-height:80vh;overflow:auto;padding:18px;}
+.modal h3{font-family:'ZCOOL KuaiLe';color:var(--rose2);margin-bottom:8px;}
+.modal .ev2{font-size:13px;border-bottom:1px dashed var(--line);padding:8px 0;line-height:1.6;}
+.modal .cx{float:right;cursor:pointer;font-size:18px;color:var(--rose2);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="title"><h1>计量局事故簿</h1><p>第一章 · 计量法律法规与计量组织机构 · 连环案</p></div>
+  <div class="scr" id="scr"></div>
+</div>
+<script>
+/* ========================================================
+   全局状态：跨事故的好感 / 线索本 / 后遗症旗标 / 进度
+   ======================================================== */
+const G={
+  fav:0,            // 沈准好感
+  rep:0,            // 业务声望（影响某些分支可用性）
+  clues:[],         // 线索本（永久收集）
+  flags:{},         // 后遗症旗标：前案的选择影响后案
+  caseIdx:0,        // 当前第几案
+  badEndings:[],    // 触发过的坏结局记录
+};
+const TOTAL_CASES=9;
+
+const CAST=[
+  {e:"🕴️",n:"沈准",d:"高冷话痨部长，开口必带恋爱比喻，卷宗签字的人"},
+  {e:"💋",n:"白偏差",d:"傲娇竞争对手，专门给你挖坑、抢功"},
+  {e:"🍵",n:"温溯源",d:"温柔学长，关键时刻递线索"},
+  {e:"🎀",n:"陆量值",d:"咋呼闺蜜，负责复述口诀和帮腔"},
+];
+const AV={bu:'🕴️',ri:'💋',xue:'🍵',mi:'🎀',npc:'👤',sys:'📋'};
+const scr=document.getElementById('scr');
+
+/* ====== 渲染原子 ====== */
+function line(av,who,t){return `<div class="line"><div class="av ${av}">${AV[av]||'❓'}</div><div class="bb ${av==='sys'?'s':''}"><span class="w">${who}</span>${t}</div></div>`;}
+function narr(loc,t,big){return `<div class="narr ${big?'big':''}">${loc?`<span class="loc">📍 ${loc}</span>`:''}${t}</div>`;}
+function evid(title,body){return `<div class="evid"><span class="et">${title}</span>${body}</div>`;}
+function kp(t){return `<div class="kp">${t}</div>`;}
+
+function hearts(){let h=Math.max(0,Math.min(5,3+Math.round(G.fav/2)));return '💗'.repeat(h)+'🖤'.repeat(5-h);}
+function hud(chap){
+  return `<div class="hud">
+    <span class="ch">${chap}</span>
+    <div class="tags">
+      <span class="tag">💗 好感 ${G.fav>=0?'+':''}${G.fav}</span>
+      <span class="tag">⭐ 声望 ${G.rep}</span>
+      <span class="tag cl" onclick="openClues()">🗂️ 线索 <b>${G.clues.length}</b></span>
+    </div></div>`;
+}
+function casebar(){
+  let dots='';
+  for(let i=0;i<TOTAL_CASES;i++){
+    dots+=`<span class="dot ${i<G.caseIdx?'done':i===G.caseIdx?'now':''}"></span>`;
+  }
+  return `<div class="casebar">${dots}</div>`;
+}
+
+/* ====== 线索本弹窗 ====== */
+const CLUE_LIB={}; // 由各案注册：id -> {t, body}
+function addClue(id){ if(!G.clues.includes(id)) G.clues.push(id); }
+function has(id){return G.clues.includes(id);}
+function openClues(){
+  let items=G.clues.length? G.clues.map(id=>{
+    const c=CLUE_LIB[id]; return c?`<div class="ev2"><b style="color:#7a5a14">${c.t}</b><br>${c.body}</div>`:'';
+  }).join('') : '<p style="font-size:13px;color:#8a7a60">还没收集到线索。多调查、多翻规定就会攒下来。</p>';
+  const m=document.createElement('div');m.className='modal';m.id='cluemodal';
+  m.innerHTML=`<div class="box"><span class="cx" onclick="document.getElementById('cluemodal').remove()">✕</span>
+    <h3>🗂️ 线索本 · 你已掌握的条文</h3>${items}</div>`;
+  m.onclick=e=>{if(e.target===m)m.remove();};
+  document.body.appendChild(m);
+}
+
+/* ====== 好感/声望变动的小动画提示 ====== */
+function fxFav(d){G.fav+=d;}
+function fxRep(d){G.rep+=d;}
+function setFlag(k,v){G.flags[k]=(v===undefined?true:v);}
+function flag(k){return !!G.flags[k];}
+
+/* ====== 开场 ====== */
+function intro(){
+  Object.assign(G,{fav:0,rep:0,clues:[],flags:{},caseIdx:0,badEndings:[]});
+  let cast=CAST.map(c=>`<div class="c"><span class="e">${c.e}</span> <b>${c.n}</b><br><span style="color:#7a6a55">${c.d}</span></div>`).join('');
+  scr.innerHTML=`<div class="startc">
+    <div class="em">🕵️‍♀️💘📋</div>
+    <h2>欢迎入职 · 计量监督管理局</h2>
+    <p>你是新来的实习生。这里没有划重点的课本，只有一桩接一桩的<b>真事故</b>。<br>
+    每一案，你都要：<b>调查取证 → 凑齐线索 → 自己推出结论 → 做出处理决定</b>。<br>
+    条文不是用来背的，是你<b>定性案件、拆穿陷阱、算清数字</b>的工具。</p>
+    <p>⚠️ <b>选择真的会改变剧情</b>：判错会被退卷宗、被同事坑、留下「后遗症」在后面的案子爆发；<br>好感与声望会累积，通向<b>不同结局</b>。</p>
+    <div class="cast">${cast}</div>
+    <p class="note">📚 覆盖第一章 第一节（法律法规与监督管理）＋ 第二节（计量技术规范）全部考点，共 ${TOTAL_CASES} 桩连环案。</p>
+    <button class="btn" onclick="nextCase()">推开计量局的门 →</button>
+  </div>`;
+}
+
+/* ====== 案件调度 ====== */
+const CASES=[]; // 每个元素是一个 function(){ ...渲染该案第一幕... }
+function nextCase(){
+  if(G.caseIdx>=CASES.length){ grandFinale(); return; }
+  CASES[G.caseIdx]();
+}
+function finishCase(){
+  G.caseIdx++;
+  // 过场
+  scr.innerHTML=hud("—— 案件归档 ——")+casebar()+
+    narr("","<div style='text-align:center;font-size:38px'>🗂️</div><div style='text-align:center'>本案归档。卷宗放进了沈准桌上那摞越来越高的文件里。<br>"+
+    (G.caseIdx<CASES.length?"下一桩事故，已经在路上了。":"全部事故处理完毕。")+"</div>",true)+
+    `<button class="btn" onclick="nextCase()">${G.caseIdx<CASES.length?'接手下一桩 →':'查看你的结局 →'}</button>`;
+}
+
+/* ====== 大结局（按累计好感/声望/后遗症分流） ====== */
+function grandFinale(){
+  let em,grade,msg;
+  const bad=G.badEndings.length;
+  if(G.fav>=8 && G.rep>=6 && bad===0){
+    em="👑💘";grade="终章 · 计量之神 + 沈准的正式告白";
+    msg="九桩事故零失误。沈准在全局面前合上最后一本卷宗：『从入职第一天我就在想——你的量值，能不能只溯源到我这里。』全局起哄，白偏差气到摔笔。";
+  }else if(G.fav>=4 && G.rep>=3){
+    em="🏅💗";grade="终章 · 金牌检定员 + 暧昧未明";
+    msg="你成了局里最靠谱的新人。沈准罕见地约你『加个班，吃个饭，聊聊……工作以外的事』。话没说完，但你懂了。";
+  }else if(bad>=3){
+    em="🌧️";grade="终章 · 险象环生的转正";
+    msg="案子是办完了，但你留下了一串后遗症：被退过的卷宗、得罪过的店家、被白偏差钻过的空子。沈准叹气：『底子不差，就是太毛躁。再练一年。』";
+  }else{
+    em="📗";grade="终章 · 合格转正";
+    msg="平稳落地。沈准把第一章的条文整理成一本送你：『下一章更难。我等你跟上。』";
+  }
+  scr.innerHTML=hud("—— 第一章 · 终 ——")+casebar()+
+    `<div class="narr big"><div style="font-size:50px">${em}</div>
+      <div style="font-family:'ZCOOL KuaiLe';color:var(--rose2);font-size:24px;margin:8px 0">${grade}</div>
+      <p style="font-size:14px;line-height:1.85;color:#5a4a36">${msg}</p>
+      <p style="font-size:13px;color:#8a7a60;margin-top:10px">最终好感 ${G.fav>=0?'+':''}${G.fav} · 声望 ${G.rep} · 收集线索 ${G.clues.length} 条 · 失误 ${bad} 次</p>
+    </div>
+    ${kp("<b>你这一路真正「用出来」的考点</b>：调整范围 · 法规体系三层 · 处分vs处罚 · 监督职责边界 · 计量授权形式与越权 · 授权证书期限 · 计量标准建立权限 · 仲裁检定依据 · 强制检定范围 · 检定印证 · 零售称重负偏差(自己算) · 定量包装允许短缺量(自己算) · 型式批准两步 · 技术规范分类 · JJG/JJF编号 · 检定系统表溯源。")}
+    <button class="btn" onclick="intro()">🔄 重开一周目（换不同选择走不同剧情）</button>`;
+}
+
+/* ====== 占位：案件将在后续脚本块中 push 进 CASES ====== */
+intro();
+</script>
+<script>
+/* ============================================================
+   九桩连环案 —— 深度推理 / 长篇分支 / 后遗症联动
+   通用辅助：每案一个对象，含若干「幕(scene)"，幕内可调查+决策
+   ============================================================ */
+
+/* 通用：渲染一组调查行动，全部点过或点了」够了「后出现 cont 按钮 */
+function investigate(container, items, contLabel, contFn, minClues){
+  let html=`<div class="invt">🔍 ${items.intro||'动笔前，先调查取证：'}</div><div class="acts" id="actbox">`;
+  items.acts.forEach((a,i)=>{ html+=`<button class="act" onclick="window.__inv(${i})">${a.label}${a.hint?` <span class="ai">（${a.hint}）</span>`:''}</button>`; });
+  html+=`</div><div id="invdyn"></div>`;
+  container.insertAdjacentHTML('beforeend',html);
+  let got=0;
+  window.__inv=function(i){
+    const btns=document.querySelectorAll('#actbox .act');
+    if(btns[i].classList.contains('used'))return;
+    btns[i].classList.add('used');
+    const a=items.acts[i];
+    if(a.clue) addClue(a.clue);
+    document.getElementById('invdyn').insertAdjacentHTML('beforeend', a.reveal);
+    got++;
+    if(got>=(minClues||1) && !document.getElementById('contbtn')){
+      document.getElementById('invdyn').insertAdjacentHTML('beforeend',
+        `<button class="btn" id="contbtn" onclick="(${contFn.name})()">${contLabel} →</button>`);
+    }
+  };
+}
+
+/* 决策渲染（直接给跳转函数） */
+function decideTo(container, head, opts){
+  let html=`<div class="dec"><div class="dh">⚖️ ${head}</div>`;
+  opts.forEach((o,i)=>{ html+=`<button class="opt" onclick="window.__dec2(${i})">${o.t}</button>`; });
+  html+=`</div><div id="decres"></div>`;
+  container.insertAdjacentHTML('beforeend',html);
+  window.__dec2=function(i){
+    document.querySelectorAll('.dec .opt').forEach((b,j)=>{b.disabled=true;
+      if(opts[j].ok)b.classList.add('ok'); if(j===i&&!opts[i].ok)b.classList.add('no'); if(!opts[j].ok&&j!==i)b.classList.add('dim');});
+    const o=opts[i];
+    if(o.fav)fxFav(o.fav); if(o.rep)fxRep(o.rep); if(o.flag)setFlag(o.flag); if(o.bad)G.badEndings.push(o.bad);
+    document.getElementById('decres').innerHTML=`<div class="res ${o.ok?'g':'b'}">${o.res}</div>`+(o.kp?kp(o.kp):'');
+    o.then();
+  };
+}
+
+/* ============================================================
+   案 1 · 体重秤疑云  —— 调整范围 + 法规体系三层
+   ============================================================ */
+CLUE_LIB['c_scope']={t:'《计量法》调整范围',body:'使用计量单位、建立基准标准、计量检定(含认证)、制造修理销售使用计量器具、仲裁检定调解纠纷、计量监督管理等法律关系。家庭自用计量器具不调整；侧重危害国家人民利益的问题，非」所有「问题。'};
+CLUE_LIB['c_tiers']={t:'计量法规体系·三层',body:'①法律：仅《计量法》(基本法)。②行政法规：国务院定，7个(一细则、三单位、二办法、一国防)。③规章：一堆《XX办法》。」办法/条例「字样≠规章。'};
+
+CASES.push(function(){
+  scr.innerHTML=hud("案壹 · 体重秤疑云")+casebar()+
+    narr("计量局大厅 · 周一上午九点","你刚挂好工牌，大厅就炸了。一个穿背心的大爷拎着一台<b>体重秤</b>拍在前台，唾沫横飞。")+
+    line('npc','大爷','我这秤！上礼拜在你们认证的店里买的！称我孙子老变数！我要告它！让《计量法》制裁这破店！')+
+    line('ri','白偏差','（抢先）新人愣着干嘛？秤不准就是计量问题，立案查那家店啊！我替你把立案单填上咯？')+
+    line('bu','沈准','（挡在你俩之间）等一下。谈恋爱要先搞清对方是不是」我该管的人「，办案也一样。这案子<b>归不归《计量法》管</b>，你别急着填单——去查清楚。');
+  investigate(scr,{
+    intro:'你有时间在动笔前调查（建议至少看一眼」调整范围「）：',
+    acts:[
+      {label:'📖 翻《计量法》调整范围条文',hint:'它到底管哪些事',clue:'c_scope',
+       reveal:evid('📖 证物：调整范围','调整：①使用计量单位 ②建立基准/标准 ③计量检定(含认证) ④<b>制造、修理、销售、使用</b>计量器具 ⑤仲裁检定/调解纠纷 ⑥计量监督管理产生的法律关系。<br><b>侧重调整」危害国家和人民利益「的计量问题，非」所有「问题。</b>')},
+      {label:'🍵 找学长温溯源问两句',hint:'他总能点醒你',clue:'c_scope',
+       reveal:line('xue','温溯源','别被」秤不准「带跑。<b>那家店」销售「计量器具</b>——归《计量法》管；可大爷买回家给孙子<b>自用</b>的这台，是」家庭自用计量器具「，恰恰<b>不</b>调整。看清他到底告」店的销售「还是」自家这台「。')},
+      {label:'🔎 检查大爷这台秤的来历',hint:'物证',
+       reveal:evid('🔎 物证检查','<table><tr><td>用途</td><td>买回<b>家中</b>给孙子量体重(家庭自用)</td></tr><tr><td>购买渠道</td><td>本市一家正规商店("销售」计量器具)</td></tr><tr><td>是否贸易结算</td><td>否</td></tr></table>')},
+    ]
+  },'线索差不多了，下判断',c1decide,1);
+});
+function c1decide(){
+  decideTo(scr,'这位大爷的诉求，《计量法》该怎么处理？',[
+    {t:'A. 全立案：把卖秤的店和这台秤一起查办',ok:false,fav:-1,bad:'c1-overreach',
+     res:'<span class="rt">❌ 一锅端，跟白偏差一起翻车</span>家里自用的器具《计量法》不调整，这一立，店家可反告你越权。沈准退回卷宗。<b>(留下后遗症：越权记录)</b>',
+     kp:CLUE_LIB['c_scope'].body, then:()=>retryBtn(c1decide)},
+    {t:'B. 拆开看：店「销售」行为归管；大爷「家庭自用」的这台不在调整范围，不就这台立案',ok:true,fav:1,rep:1,
+     res:'<span class="rt">✅ 拆得清楚</span>你把「销售行为」和「家庭自用」分开：店属「销售计量器具」归管，自用秤不予立案，可先帮大爷送检、再依「销售」环节核查店家。沈准签字：『……比某些人强。』(白偏差脸绿)',
+     kp:CLUE_LIB['c_scope'].body, then:c1twist},
+    {t:'C. 全不管：体重秤又不做生意用，一概不管',ok:false,fav:-1,bad:'c1-miss',
+     res:'<span class="rt">❌ 放太松</span>店「销售」计量器具本归《计量法》管，你给漏了。沈准皱眉。',
+     kp:CLUE_LIB['c_scope'].body, then:()=>retryBtn(c1decide)},
+  ]);
+}
+function retryBtn(fn){ document.getElementById('decres').insertAdjacentHTML('beforeend',`<button class="btn ghost" onclick="(${fn.name})()">↺ 重新判断这一步</button>`); }
+
+function c1twist(){
+  scr.innerHTML=hud("案壹 · 体重秤疑云 · 转折")+casebar()+
+    narr("茶水间 · 半小时后","白偏差不甘心被打脸，塞给你一份文件，想让你「按这个把店重罚一笔给大爷出气」。")+
+    line('ri','白偏差','《强制检定的工作计量器具检定管理办法》——名字带「办法」，肯定是「计量规章」！规章弹性大，咱想怎么罚就怎么罚！按这个办！')+
+    line('xue','温溯源','（路过）……名字带「办法」就一定是规章？这份文件的<b>层级</b>，可不像她说的那样。');
+  investigate(scr,{
+    intro:'动笔前核实这份文件到底是哪一层(用错层级=用错权限)：',
+    acts:[{label:'📚 对照「计量法规体系」三层核实',hint:'法律/行政法规/规章',clue:'c_tiers',
+      reveal:evid('📚 证物：法规体系·三层','<b>①法律</b>：仅《计量法》=基本法/最高准则。<br><b>②行政法规</b>：国务院定，7个。口诀「一细则、三单位、<b>二办法</b>、一国防」——「二办法"=《进口计量器具监督管理办法》＋《<b>强制检定的工作计量器具检定管理办法</b>》。<br><b>③规章</b>：一堆《XX管理办法》(计量基准管理办法、标准物质管理办法…)。<br>⚠️ 白偏差给的这份正是」二办法「之一 → 属<b>行政法规</b>，不是规章！')}]
+  },'我看明白了，回她',c1judge2,1);
+}
+function c1judge2(){
+  decideTo(scr,'《强制检定的工作计量器具检定管理办法》属于哪一层级？',[
+    {t:'A. 计量法律(最高那本)',ok:false,fav:-1,bad:'c1-tier',res:'<span class="rt">❌</span>法律只有《计量法》一本。',kp:CLUE_LIB['c_tiers'].body,then:()=>retryBtn(c1judge2)},
+    {t:'B. 计量行政法规("二办法」之一)',ok:true,fav:1,res:'<span class="rt">✅ 当场拆穿陷阱</span>你点破：『这是「二办法」之一，属<b>行政法规</b>不是规章。层级用错，处理权限全错。』白偏差噎住走人。沈准嘴角一扬：『记得这么清楚……下班一起吃个饭？算工作总结。』',kp:CLUE_LIB['c_tiers'].body,then:finishCase},
+    {t:'C. 计量规章(名字带「办法」就是规章)',ok:false,fav:-1,bad:'c1-tier',res:'<span class="rt">❌ 掉进「办法=规章」的坑</span>它是「二办法」之一，属<b>行政法规</b>。',kp:CLUE_LIB['c_tiers'].body,then:()=>retryBtn(c1judge2)},
+  ]);
+}
+
+/* ============================================================
+   案 2 · 谁有权罚 —— 处分 vs 处罚 + 监督员职权
+   ============================================================ */
+CLUE_LIB['c_punish']={t:'处分 vs 处罚',body:'县级以上计量行政部门(及其计量监督员)→可现场处理、行政处罚(罚款/没收)。部门、企事业单位、上级主管部门→只能行政处分，无处罚权。'};
+CLUE_LIB['c_supervisor']={t:'计量监督员',body:'县级以上政府计量行政部门按需设置；经考核合格后由其任命颁证；负责在规定区域/场所巡回检查，可在权限内现场处理违法行为、执行行政处罚。'};
+
+CASES.push(function(){
+  scr.innerHTML=hud("案贰 · 谁有权罚")+casebar()+
+    narr("某机械厂 · 现场检查","厂里被查出长期使用一台不合格的压力表。厂长点头哈腰，背后该厂上级主管部门也派人来了，气势汹汹要「从重处理」。")+
+    line('npc','上级主管部门','这事交给我们！我们直接<b>没收</b>这台压力表、再<b>罚他一笔款</b>，给你们计量局省事！')+
+    line('ri','白偏差','（附和）对对，让他们上级出面罚，又快又狠！新人记下来啊。')+
+    line('xue','温溯源','（皱眉）……上级主管部门有「罚款、没收」的权吗？处分和处罚，可不是一回事。');
+  investigate(scr,{
+    intro:'先弄清「谁能罚、能罚什么」再表态：',
+    acts:[
+      {label:'📖 查「处分」与「处罚」的权限归属',hint:'易混高频',clue:'c_punish',
+       reveal:evid('📖 证物：处分≠处罚','<b>计量行政部门(及计量监督员)</b>：可现场处理、执行<b>行政处罚</b>(罚款/没收等)。<br><b>部门/企事业单位/上级主管部门</b>：只能给<b>行政处分</b>，<b>无处罚权</b>。')},
+      {label:'🍵 问温溯源「计量监督员」能干嘛',hint:'谁现场执法',clue:'c_supervisor',
+       reveal:line('xue','温溯源','现场执法是<b>计量监督员</b>的活——他由县级以上政府计量行政部门任命颁证，在规定区域巡回检查，可在权限内现场处理、执行行政处罚。上级主管部门？没这个权。')},
+    ]
+  },'心里有数了',c2decide,1);
+});
+function c2decide(){
+  decideTo(scr,'对这台不合格压力表的违法行为，正确的处理是？',[
+    {t:'A. 同意让上级主管部门「没收+罚款"',ok:false,fav:-1,bad:'c2-power',res:'<span class="rt">❌ 给错了权</span>上级主管部门<b>无处罚权</b>，只能给行政处分。你这一放，等于让无权机关越权罚款。',kp:CLUE_LIB['c_punish'].body,then:()=>retryBtn(c2decide)},
+    {t:'B. 由计量行政部门(及计量监督员)依法行政处罚；上级主管部门最多给当事人行政处分',ok:true,fav:1,rep:1,res:'<span class="rt">✅ 权责分明</span>你说明：罚款没收属<b>计量行政部门</b>的行政处罚；上级主管部门只能对责任人给<b>行政处分</b>。白偏差又被打脸。沈准点头：『分得清」谁有权「，比急着罚重要。』',kp:CLUE_LIB['c_punish'].body,then:finishCase},
+    {t:'C. 谁都别罚，处分一下算了',ok:false,fav:-1,bad:'c2-soft',res:'<span class="rt">❌ 漏掉处罚</span>该由计量行政部门行政处罚的，你给降格成处分，放纵了违法。',kp:CLUE_LIB['c_punish'].body,then:()=>retryBtn(c2decide)},
+  ]);
+}
+
+/* ============================================================
+   案 3 · 越界的研发部 —— 计量监督职责范围
+   ============================================================ */
+CLUE_LIB['c_duty']={t:'计量行政部门职责',body:'①贯彻执行方针政策、推行法定计量单位 ②制定协调发展规划、建立基准和社会公用标准、组织量值传递 ③对制造修理销售使用计量器具实施监督 ④计量认证、组织仲裁检定、调解纠纷 ⑤监督检查法规实施。不负责」研发测量仪器「。'};
+
+CASES.push(function(){
+  scr.innerHTML=hud("案叁 · 越界的研发部")+casebar()+
+    narr("接待室","某公司研发部主任来访，张口就要计量局」帮个忙「。")+
+    line('npc','研发部主任','听说你们计量局技术强！能不能<b>帮我们研发一台新型测量仪器</b>？算计量工作的一部分嘛！')+
+    line('mi','陆量值','（小声）研发新仪器……这也算计量相关吧？要不帮一把显得咱热心？')+
+    line('bu','沈准','我们的职责是有边界的，就像爱也有分寸。哪些是我们的事，哪件绝对不是——你来分。');
+  investigate(scr,{
+    intro:'先核对计量行政部门的法定职责清单：',
+    acts:[{label:'📖 调出计量行政部门职责清单',hint:'5项法定职责',clue:'c_duty',
+      reveal:evid('📖 证物：法定职责','①贯彻方针政策、推行法定计量单位 ②制定协调规划、建立基准与社会公用标准、<b>组织量值传递</b> ③监督制造修理销售使用计量器具 ④<b>计量认证、组织仲裁检定、调解纠纷</b> ⑤监督检查法规实施。<br>清单里<b>没有」研发测量仪器「</b>。')}]
+  },'对照完了',c3decide,1);
+});
+function c3decide(){
+  decideTo(scr,'哪一项不在计量行政部门的监督职责范围内？',[
+    {t:'A. 推行法定计量单位',ok:false,fav:-1,res:'<span class="rt">❌</span>这是职责①。',kp:CLUE_LIB['c_duty'].body,then:()=>retryBtn(c3decide)},
+    {t:'B. 组织量值传递',ok:false,fav:-1,res:'<span class="rt">❌</span>这是职责②。',kp:CLUE_LIB['c_duty'].body,then:()=>retryBtn(c3decide)},
+    {t:'C. 研发测量仪器(婉拒研发部)',ok:true,fav:1,rep:1,res:'<span class="rt">✅ 守住边界</span>你婉拒：『研发仪器是企业/科研的事，不是计量行政部门职责。我们能帮你做的是检定、认证、仲裁。』主任悻悻而归。沈准：『懂得说」不「，也是本事。』',kp:CLUE_LIB['c_duty'].body,then:finishCase},
+    {t:'D. 组织仲裁检定',ok:false,fav:-1,res:'<span class="rt">❌</span>这是职责④。',kp:CLUE_LIB['c_duty'].body,then:()=>retryBtn(c3decide)},
+  ]);
+}
+
+/* ============================================================
+   案 4 · 一份越权的授权申请 —— 计量授权形式 + 申请去向
+   ============================================================ */
+CLUE_LIB['c_auth']={t:'计量授权·4种形式',body:'①授权为法定计量检定机构 ②授权建立社会公用计量标准 ③授权对内部强检器具执行强检 ④授权承担计量标准考核、仲裁检定、新产品型式评价、标准物质定级鉴定等。不含」授权建立计量基准「——基准由市场监管总局统一规划建立。'};
+CLUE_LIB['c_authapply']={t:'授权申请去向',body:'建计量基准→国务院计量行政部门；承担新产品型式评价→省级以上；对本部门内部强检→同级；对本单位内部强检→当地县(市)级。'};
+
+CASES.push(function(){
+  scr.innerHTML=hud("案肆 · 越权的授权申请")+casebar()+
+    narr("受理窗口","某单位计量检定机构递来一份授权申请，白偏差已经盖了一半章。")+
+    line('ri','白偏差','我都快批了——这单位申请」经授权后<b>建立本单位的计量基准</b>「，合情合理对吧？')+
+    line('xue','温溯源','（按住她的手）等等。授权能让人家干很多事……但」建计量基准「这条，对一个单位来说，对吗？');
+  investigate(scr,{
+    intro:'核实」授权到底能授哪些任务「，以及」申请该递给谁「：',
+    acts:[
+      {label:'📖 查计量授权的4种形式',hint:'授权能干啥',clue:'c_auth',
+       reveal:evid('📖 证物：授权4形式','①授权为法定计量检定机构 ②授权建立<b>社会公用计量标准</b> ③授权对内部强检器具执行强检 ④授权承担计量标准考核/仲裁检定/新产品型式评价/标准物质定级鉴定等。<br>⚠️ <b>不包含」授权建立计量基准「</b>——基准由市场监管总局统一规划建立。')},
+      {label:'📖 查不同授权事项的申请去向',hint:'递给哪一级',clue:'c_authapply',
+       reveal:evid('📖 证物：申请去向','建<b>计量基准</b>→<b>国务院</b>计量行政部门；承担<b>新产品型式评价</b>→<b>省级以上</b>；对<b>本部门</b>内部强检→<b>同级</b>；对<b>本单位</b>内部强检→<b>当地县(市)级</b>。')},
+    ]
+  },'查清楚了',c4decide,1);
+});
+function c4decide(){
+  decideTo(scr,'这份」申请经授权建立本单位计量基准「的申请，错在哪？',[
+    {t:'A. 没错，盖章批准',ok:false,fav:-1,bad:'c4-auth',res:'<span class="rt">❌ 跟白偏差一起越权</span>授权任务里<b>没有」建计量基准「</b>这一条，基准由市场监管总局统一规划建立。批了就是错授。',kp:CLUE_LIB['c_auth'].body,then:()=>retryBtn(c4decide)},
+    {t:'B. 错在」建计量基准「不属授权任务；可改申请」建社会公用计量标准「等合法事项',ok:true,fav:1,rep:1,res:'<span class="rt">✅ 拦下越权</span>你拦住白偏差的章：『授权能给的是法定机构资格、建<b>社会公用计量标准</b>、内部强检、型评等；唯独」建计量基准「不在其中。』沈准颔首。',kp:CLUE_LIB['c_auth'].body,then:c4apply},
+    {t:'C. 错在申请递错了级别，跟基准无关',ok:false,fav:-1,res:'<span class="rt">❌ 抓错重点</span>核心错误是」建基准根本不属授权任务「。',kp:CLUE_LIB['c_auth'].body,then:()=>retryBtn(c4decide)},
+  ]);
+}
+function c4apply(){
+  scr.innerHTML=hud("案肆 · 续 · 申请递给谁")+casebar()+
+    narr("受理窗口","该单位改了主意，现在想申请」承担计量器具新产品型式评价「的授权。问你：这申请该递给哪一级？")+
+    line('mi','陆量值','型式评价的授权……递给县级？市级？还是更高？我又忘了！');
+  decideTo(scr,'申请」承担计量器具新产品型式评价「的授权，应向哪一级提出？',[
+    {t:'A. 当地县(市)级',ok:false,fav:-1,res:'<span class="rt">❌</span>县市级是」对本单位内部强检「的去向。',kp:CLUE_LIB['c_authapply'].body,then:()=>retryBtn(c4apply)},
+    {t:'B. 省级以上人民政府计量行政部门',ok:true,fav:1,res:'<span class="rt">✅</span>新产品型式评价授权→<b>省级以上</b>。递对了。',kp:CLUE_LIB['c_authapply'].body,then:finishCase},
+    {t:'C. 国务院计量行政部门(只有它能批)',ok:false,fav:-1,res:'<span class="rt">❌</span>国务院那级是」建计量基准「的去向；型评是省级以上即可。',kp:CLUE_LIB['c_authapply'].body,then:()=>retryBtn(c4apply)},
+  ]);
+}
+
+/* ============================================================
+   案 5 · 快过期的证书 —— 授权证书期限 + 续/止规则
+   ============================================================ */
+CLUE_LIB['c_cert']={t:'授权证书期限',body:'有效期由授权单位规定，最长不超过5年；期满前6个月可申请继续承担；要终止须提前6个月书面报告，未经批准不得擅自终止。'};
+
+CASES.push(function(){
+  scr.innerHTML=hud("案伍 · 快过期的证书")+casebar()+
+    narr("电话铃响 · 下午","一家被授权单位急电：授权证书快到期了，又想顺便终止其中一项任务，慌得不行。")+
+    line('npc','被授权单位','我们证书要到期了！想续！另外有一项任务我们想<b>下个月就停掉</b>，行不行？')+
+    line('mi','陆量值','（捂话筒）证书最长几年？提前多久续？要停又得提前多久？我全混了！')+
+    line('bu','沈准','（白板写下几个数）感情要保鲜，证书也有期限。记牢三个数：最长期限、续期提前量、终止提前量。');
+  investigate(scr,{
+    intro:'查清」三个数「再回电：',
+    acts:[{label:'📖 查授权证书的期限与续/止规则',hint:'三个关键数',clue:'c_cert',
+      reveal:evid('📖 证物：证书期限','有效期由授权单位规定，<b>最长不超过5年</b>；期满前<b>6个月</b>可申请继续承担；要终止须<b>提前6个月</b>书面报告，<b>未经批准不得擅自终止</b>。')}]
+  },'记牢了，回电',c5decide,1);
+});
+function c5decide(){
+  decideTo(scr,'你该怎么答复这家单位？',[
+    {t:'A. 证书最长10年，随时能续，想停就停',ok:false,fav:-1,bad:'c5-num',res:'<span class="rt">❌ 数字全错</span>最长<b>5年</b>，期满前<b>6个月</b>续，终止要<b>提前6个月</b>书面报告且须经批准。',kp:CLUE_LIB['c_cert'].body,then:()=>retryBtn(c5decide)},
+    {t:'B. 最长5年；期满前6个月申请续；要停须提前6个月书面报告且经批准，不能擅自停',ok:true,fav:1,rep:1,res:'<span class="rt">✅ 三个数全对</span>对方松了口气，按规矩提交了续期申请、撤回了」下月就停「的念头。沈准：『记数字也能记这么准……我有点危险。』',kp:CLUE_LIB['c_cert'].body,then:finishCase},
+    {t:'C. 最长5年没错，但停不停随他们，不用报告',ok:false,fav:-1,bad:'c5-stop',res:'<span class="rt">❌ 漏了终止规则</span>终止须<b>提前6个月书面报告且经批准</b>，不得擅自终止。',kp:CLUE_LIB['c_cert'].body,then:()=>retryBtn(c5decide)},
+  ]);
+}
+
+/* ============================================================
+   案 6 · 谁能建这台标准 —— 计量标准建立权限 + 仲裁检定依据
+   ============================================================ */
+CLUE_LIB['c_std']={t:'计量标准建立权限',body:'部门最高计量标准→经同级政府计量行政部门考核合格后由主管部门批准使用。企事业单位最高计量标准→经与其主管部门同级的政府计量行政部门考核合格、取得考核证书后，在本单位开展非强检。乡镇企业最高标准→当地县(市区)级主持考核。社会公用计量标准(本区域最高等级)→须报上一级考核。'};
+CLUE_LIB['c_arb']={t:'仲裁检定依据',body:'县级以上计量行政部门用计量基准或社会公用计量标准进行的以裁决为目的的检定测试；其数据作为处理纠纷依据，具有法律效力。'};
+
+CASES.push(function(){
+  scr.innerHTML=hud("案陆 · 谁能建这台标准")+casebar()+
+    narr("两家公司 · 撕破脸","A、B两公司为一笔贸易的计量结果吵翻，闹到计量局要」仲裁检定「。混乱中还冒出个建标权限的问题。")+
+    line('ri','白偏差','仲裁嘛，用咱们<b>部门最高计量标准</b>给他们裁决不就完了？又快！')+
+    line('xue','温溯源','仲裁检定要有<b>法律效力</b>，得用最高级别的依据。部门标准……可裁不了。')+
+    line('bu','沈准','先把」用什么裁「定了，再处理建标的事。');
+  investigate(scr,{
+    intro:'查仲裁依据，顺带翻一下建标权限：',
+    acts:[
+      {label:'📖 查仲裁检定的法定依据',hint:'什么才有法律效力',clue:'c_arb',
+       reveal:evid('📖 证物：仲裁依据','县级以上计量行政部门用<b>计量基准</b>或<b>社会公用计量标准</b>进行的、以裁决为目的的检定测试，其数据作处理纠纷依据，<b>具有法律效力</b>。')},
+      {label:'📖 查各类计量标准的建立/考核权限',hint:'谁考核谁批准',clue:'c_std',
+       reveal:evid('📖 证物：建标权限','<b>部门最高标准</b>：同级政府计量行政部门考核合格→主管部门批准使用。<br><b>企事业单位最高标准</b>：与其主管部门同级的政府计量行政部门考核、取得考核证书后→本单位开展非强检。<br><b>乡镇企业最高标准</b>：当地县(市区)级主持考核。<br><b>本区域最高等级社会公用标准</b>：报<b>上一级</b>考核。')},
+    ]
+  },'够了',c6decide,2);
+});
+function c6decide(){
+  decideTo(scr,'仲裁检定该用什么作依据，数据才有法律效力？(多选思路：哪些可以)',[
+    {t:'A. 计量基准 或 社会公用计量标准',ok:true,fav:1,rep:1,res:'<span class="rt">✅ 选最硬的底气</span>你定调：『仲裁必须用<b>计量基准</b>或<b>社会公用计量标准</b>，数据才有法律效力。部门标准/工作标准都不行。』两家公司终于服气。',kp:CLUE_LIB['c_arb'].body,then:c6std},
+    {t:'B. 部门最高计量标准',ok:false,fav:-1,res:'<span class="rt">❌ 不够硬</span>部门标准裁决无法律效力。',kp:CLUE_LIB['c_arb'].body,then:()=>retryBtn(c6decide)},
+    {t:'C. 随便一台工作计量标准',ok:false,fav:-1,res:'<span class="rt">❌</span>工作标准更不行。',kp:CLUE_LIB['c_arb'].body,then:()=>retryBtn(c6decide)},
+  ]);
+}
+function c6std(){
+  scr.innerHTML=hud("案陆 · 续 · 建标权限")+casebar()+
+    narr("受理窗口","风波平息后，A公司想建一台」本单位使用的最高计量标准「，问该找谁考核。")+
+    line('npc','A公司','我们要建本单位最高计量标准，归谁考核？随便找个县里盖章行不行？');
+  decideTo(scr,'企业、事业单位建立」本单位最高计量标准「，由谁考核？',[
+    {t:'A. 与其主管部门同级的人民政府计量行政部门考核合格、取得考核证书后开展非强检',ok:true,fav:1,res:'<span class="rt">✅</span>正解。考核合格取得<b>计量标准考核证书</b>后，方可在本单位开展非强制检定。',kp:CLUE_LIB['c_std'].body,then:finishCase},
+    {t:'B. 国务院计量行政部门直接考核',ok:false,fav:-1,res:'<span class="rt">❌</span>没必要拔那么高，按主管部门同级走。',kp:CLUE_LIB['c_std'].body,then:()=>retryBtn(c6std)},
+    {t:'C. 企业自己内部考核即可',ok:false,fav:-1,res:'<span class="rt">❌</span>最高计量标准须经政府计量行政部门考核，不能自考自批。',kp:CLUE_LIB['c_std'].body,then:()=>retryBtn(c6std)},
+  ]);
+}
+
+/* ============================================================
+   案 7 · 缺斤少两两连击 —— 零售称重负偏差 + 定量包装允许短缺量（自己算）
+   ============================================================ */
+CLUE_LIB['c_retail']={t:'零售称重',body:'对象：以重量结算的食品、金银饰品。经销者必须用合格计量器具，其最大允许误差应优于或等于所售商品的负偏差(注意方向)；当场按实际示值结算；实际重量值与结算重量值之差不得超过规定负偏差。'};
+CLUE_LIB['c_prepack']={t:'定量包装商品',body:'单件实际含量须准确反映标注，标注与实际之差不得大于」允许短缺量「；批量平均实际含量须≥标注净含量。(注意：零售用」负偏差「，定量包装用」允许短缺量「，别混。)'};
+
+CASES.push(function(){
+  scr.innerHTML=hud("案柒 · 缺斤少两两连击")+casebar()+
+    narr("市场监督现场 · 上午","接到两起举报。第一起：金店一杆秤称金饰，被疑」压秤「。你得自己核称判断它合不合规。")+
+    line('xue','温溯源','金银饰品按重量结算，归零售称重管。规矩是：核称的实际重量与结算重量之差，<b>不得超过规定的负偏差</b>。先把数算明白。')+
+    line('mi','陆量值','别又把」负偏差「和」允许短缺量「搞混啊！这是零售称重，用<b>负偏差</b>。');
+  investigate(scr,{
+    intro:'取证：拿到这单交易的数据，自己判断：',
+    acts:[
+      {label:'📖 查零售称重的判定规则',hint:'用哪个量、什么方向',clue:'c_retail',
+       reveal:evid('📖 证物：零售称重规则','对象=以重量结算的<b>食品、金银饰品</b>。当场按实际示值结算；核称的实际重量值与结算重量值之差<b>不得超过规定的负偏差</b>。')},
+      {label:'🔎 调取这单金饰交易数据',hint:'物证',
+       reveal:evid('🔎 物证：金饰交易','<table><tr><td>结算(标称)重量</td><td>50.00 g</td></tr><tr><td>核称实际重量</td><td>49.70 g</td></tr><tr><td>该品规定负偏差</td><td>0.20 g</td></tr></table>实际比结算少了 50.00−49.70 = <b>0.30 g</b>。')},
+    ]
+  },'我来算',c7calc1,2);
+});
+function c7calc1(){
+  scr.insertAdjacentHTML('beforeend',
+    `<div class="calc">🧮 <b>动手算</b>：结算50.00g，核称49.70g，规定负偏差0.20g。<br>
+     短缺 = 50.00 − 49.70 = <input id="c7a" placeholder="?"> g，与规定负偏差0.20g相比是否超标？<br>
+     <button class="cbtn" onclick="c7check()">提交计算结果</button><div id="c7r"></div></div>`);
+  window.c7check=function(){
+    const v=parseFloat(document.getElementById('c7a').value);
+    const r=document.getElementById('c7r');
+    if(Math.abs(v-0.30)<0.001){
+      r.innerHTML=`<div class="res g" style="margin-top:8px"><span class="rt">✅ 算对了：短缺0.30g</span>0.30g > 规定负偏差0.20g，<b>超标</b>！这杆秤压秤违规。现在下处理结论。</div>`;
+      c7decide1();
+    }else{
+      r.innerHTML=`<div class="res b" style="margin-top:8px">再算算：50.00−49.70=0.30。填0.30试试。</div>`;
+    }
+  };
+}
+function c7decide1(){
+  decideTo(scr,'金饰核称短缺0.30g、规定负偏差0.20g，怎么判？',[
+    {t:'A. 超过规定负偏差，判违规，依《计量法》等给予行政处罚',ok:true,fav:1,rep:1,res:'<span class="rt">✅</span>短缺0.30 > 负偏差0.20，违规成立。金店被责令整改并处罚。',kp:CLUE_LIB['c_retail'].body,then:c7prepack},
+    {t:'B. 差不多就算了，0.3克而已',ok:false,fav:-1,bad:'c7-soft',res:'<span class="rt">❌ 放纵违规</span>0.30已超0.20负偏差，必须判违规。',kp:CLUE_LIB['c_retail'].body,then:()=>retryBtn(c7decide1)},
+    {t:'C. 用」允许短缺量「来判',ok:false,fav:-1,res:'<span class="rt">❌ 用错概念</span>零售称重用<b>负偏差</b>，」允许短缺量「是定量包装的词。',kp:CLUE_LIB['c_prepack'].body,then:()=>retryBtn(c7decide1)},
+  ]);
+}
+function c7prepack(){
+  scr.innerHTML=hud("案柒 · 续 · 一袋薯片")+casebar()+
+    narr("市场监督现场 · 下午","第二起举报：一袋标注净含量500g的薯片，消费者投诉」不够称「。这回是定量包装商品，规矩不一样。")+
+    line('xue','温溯源','定量包装用的是<b>允许短缺量</b>——单件标注与实际之差，不得大于规定的允许短缺量。又是个数学题，别用错词。');
+  scr.insertAdjacentHTML('beforeend',
+    evid('🔎 物证：薯片','<table><tr><td>标注净含量</td><td>500 g</td></tr><tr><td>实测净含量</td><td>492 g</td></tr><tr><td>规定允许短缺量</td><td>9 g</td></tr></table>')+
+    `<div class="calc">🧮 <b>动手算</b>：短缺 = 500 − 492 = <input id="c7b" placeholder="?"> g，与允许短缺量9g相比？<br>
+     <button class="cbtn" onclick="c7check2()">提交</button><div id="c7r2"></div></div>`);
+  window.c7check2=function(){
+    const v=parseFloat(document.getElementById('c7b').value);
+    const r=document.getElementById('c7r2');
+    if(Math.abs(v-8)<0.001){
+      r.innerHTML=`<div class="res g" style="margin-top:8px"><span class="rt">✅ 短缺8g</span>8g ≤ 允许短缺量9g，<b>未超标</b>。这袋薯片其实合规——消费者是误会了。下结论。</div>`;
+      c7decide2();
+    }else{
+      r.innerHTML=`<div class="res b" style="margin-top:8px">500−492=8，填8。</div>`;
+    }
+  };
+}
+function c7decide2(){
+  decideTo(scr,'薯片短缺8g、允许短缺量9g，怎么判？',[
+    {t:'A. 短缺8g ≤ 允许短缺量9g，单件合规，向消费者解释清楚',ok:true,fav:1,rep:1,res:'<span class="rt">✅ 没冤枉好商家</span>你顶住压力判合规：8≤9，符合规定。还顺带提醒厂家批量平均实际含量须≥标注。沈准：『不偏不倚，难得。』',kp:CLUE_LIB['c_prepack'].body,then:finishCase},
+    {t:'B. 只要不够标注就违规，立案处罚厂家',ok:false,fav:-1,bad:'c7-wrong',res:'<span class="rt">❌ 冤枉好商家</span>单件允许有不超过」允许短缺量「的短缺，8≤9是合规的。错罚会被厂家投诉。',kp:CLUE_LIB['c_prepack'].body,then:()=>retryBtn(c7decide2)},
+    {t:'C. 用」负偏差「来判',ok:false,fav:-1,res:'<span class="rt">❌ 又用错词</span>定量包装用<b>允许短缺量</b>。',kp:CLUE_LIB['c_prepack'].body,then:()=>retryBtn(c7decide2)},
+  ]);
+}
+
+/* ============================================================
+   案 8 · 新品上市与强检范围 —— 型式批准两步 + 强制检定范围 + 检定印证
+   ============================================================ */
+CLUE_LIB['c_type']={t:'型式批准',body:'计量器具新产品=本单位从未生产过的，或对结构/材质等重大改进致性能、技术特征变更的(仅改外观/外包装不算)。制造新产品必须申请型式批准=型式评价(系统检查试验、出报告)+型式的批准决定。总局管全国(进口/重要)，省级管本地区(一般)。'};
+CLUE_LIB['c_force']={t:'强制检定范围',body:'县级以上计量行政部门对：①社会公用计量标准器具 ②部门和企事业单位使用的最高计量标准器具 ③用于贸易结算、安全防护、医疗卫生、环境监测且列入强检目录的工作计量器具，实行强检。'};
+CLUE_LIB['c_seal']={t:'检定印证',body:'合格→《检定证书》《检定合格证》或加盖检定合格印；不合格→《检定结果通知书》(=检定不合格通知书)或注销原合格印证。检定过程含：检查、加标记、和/或出具检定证书。'};
+
+CASES.push(function(){
+  scr.innerHTML=hud("案捌 · 新品上市")+casebar()+
+    narr("型评窗口","一家厂商带着自研新型计量器具来报批，急着投产。还顺手问了一堆强检和发证的问题。")+
+    line('npc','厂商','我这新仪器，盖个章就能投产吧？另外，我厂里那台<b>最高计量标准</b>要不要强检？')+
+    line('ri','白偏差','（插话）外观改改就叫新产品啦？盖章批了让他投产呗，催得急！');
+  investigate(scr,{
+    intro:'三件事要查清：什么算新产品、型式批准几步、强检范围：',
+    acts:[
+      {label:'📖 查」计量器具新产品「定义与型式批准',hint:'几步/谁管',clue:'c_type',
+       reveal:evid('📖 证物：型式批准','<b>新产品</b>=从未生产过，或对结构/材质等<b>重大改进致性能、技术特征变更</b>(仅改外观/外包装<b>不算</b>)。制造新产品必申请<b>型式批准</b>=<b>型式评价</b>(系统检查试验出报告)+<b>型式的批准决定</b>。总局管全国(进口/重要)，省级管本地区(一般)。')},
+      {label:'📖 查强制检定的范围',hint:'哪些必须强检',clue:'c_force',
+       reveal:evid('📖 证物：强检范围','①社会公用计量标准器具 ②部门和企事业单位使用的<b>最高计量标准器具</b> ③贸易结算、安全防护、医疗卫生、环境监测且列入强检目录的工作计量器具。')},
+    ]
+  },'查全了',c8decide1,2);
+});
+function c8decide1(){
+  decideTo(scr,'厂商问」盖个章就能投产吗「，正确答复是？',[
+    {t:'A. 制造新产品须先经型式批准；型式批准=型式评价+型式的批准决定，两步走完才能投产',ok:true,fav:1,rep:1,res:'<span class="rt">✅ 不被催单带乱</span>你说明流程：先型式评价(检查试验、出报告)，再作型式的批准决定，方可投产。白偏差」外观改改就算新品「也被你纠正。',kp:CLUE_LIB['c_type'].body,then:c8decide2},
+    {t:'B. 催得急，先盖章让他投产，手续后补',ok:false,fav:-1,bad:'c8-rush',res:'<span class="rt">❌ 程序违法</span>没型式批准不得投产。',kp:CLUE_LIB['c_type'].body,then:()=>retryBtn(c8decide1)},
+    {t:'C. 外观没大改不算新产品，免批',ok:false,fav:-1,res:'<span class="rt">❌ 看错了</span>是否新品看」结构/材质重大改进致性能技术特征变更「，不是看外观。需结合实际，但本案是自研新型，须批。',kp:CLUE_LIB['c_type'].body,then:()=>retryBtn(c8decide1)},
+  ]);
+}
+function c8decide2(){
+  scr.innerHTML=hud("案捌 · 续 · 强检与发证")+casebar()+
+    narr("型评窗口","厂商又问：那台最高计量标准要不要强检？另外，旁边一台周期检定的电子秤刚出来结果——不合格，该发什么？")+
+    line('mi','陆量值','最高计量标准……强检吗？不合格的秤又该出哪张纸？');
+  decideTo(scr,'第一问：厂里」使用的最高计量标准器具「是否属于强制检定范围？',[
+    {t:'A. 属于强检范围(企事业单位最高计量标准属强检)',ok:true,fav:1,res:'<span class="rt">✅</span>部门和企事业单位使用的<b>最高计量标准器具</b>属强检范围。',kp:CLUE_LIB['c_force'].body,then:c8seal},
+    {t:'B. 不属于，企业自己的标准随便',ok:false,fav:-1,res:'<span class="rt">❌</span>最高计量标准器具明确在强检范围内。',kp:CLUE_LIB['c_force'].body,then:()=>retryBtn(c8decide2)},
+  ]);
+}
+function c8seal(){
+  document.getElementById('decres').insertAdjacentHTML('beforeend',
+    line('mi','陆量值','那台周期检定<b>不合格</b>的电子秤，该出哪张？'));
+  decideTo(scr,'第二问：周期检定不合格，应出具？',[
+    {t:'A. 《检定结果通知书》(或注销原合格印证)',ok:true,fav:1,res:'<span class="rt">✅</span>不合格→《检定结果通知书》(=检定不合格通知书)。合格才出《检定证书》/《检定合格证》或盖合格印。',kp:CLUE_LIB['c_seal'].body,then:finishCase},
+    {t:'B. 《检定合格证》',ok:false,fav:-1,res:'<span class="rt">❌</span>那是合格才发的。',kp:CLUE_LIB['c_seal'].body,then:()=>retryBtn(c8seal)},
+    {t:'C. 《校准证书》',ok:false,fav:-1,res:'<span class="rt">❌</span>检定不合格出《检定结果通知书》。',kp:CLUE_LIB['c_seal'].body,then:()=>retryBtn(c8seal)},
+  ]);
+}
+
+/* ============================================================
+   案 9 · 代号谜案与溯源大考 —— 第二节：技术规范分类 + JJG/JJF编号 + 检定系统表
+   ============================================================ */
+CLUE_LIB['c_spec']={t:'计量技术规范',body:'包括：国家计量检定系统表、计量检定规程、计量器具型式评价大纲、计量校准规范等。检定规程分3类：国家(总局组织制定)、部门、地方(后两者无国家规程时制定，相应国家规程发布后即行废止)。技术规范分通用(如不确定度、名词术语)和专用(如各专业校准规范)。'};
+CLUE_LIB['c_code']={t:'编号规律',body:'JJG=国家计量检定规程(顺序号1999以下)；JJG2×××=国家计量检定系统表(2000以上)；JJF=国家计量技术规范。地方/部门规程JJG(中文)××××，括号内中文代表批准单位和施行范围。'};
+CLUE_LIB['c_sys']={t:'检定系统表',body:'=量值溯源等级图，只有国家一种，国务院计量行政部门组织制定/修订，建立基准的单位起草，一项基准基本对应一个系统表。规定：基准主要计量特性、量值传递程序方法、标准复现保存量值的不确定度、工作器具最大允许误差。全国量值都应直接/间接溯源到计量基准。'};
+
+CASES.push(function(){
+  scr.innerHTML=hud("案玖 · 代号谜案与溯源大考")+casebar()+
+    narr("档案数字化室 · 第二节登场","全局技术文件要数字化打标签。一堆代号扑面而来，这也是沈准给你的」结业大考「。")+
+    line('bu','沈准','（难得认真）最后一案。我们干这行，本质是让全国每个量值都能一级级回到源头——就像我想知道，你的心意能不能溯源到我这里。先从这些代号开始。')+
+    line('ri','白偏差','JJF？那肯定是检定规程吧，看着就像！')+
+    line('xue','温溯源','JJG才是检定规程，JJF是技术规范哦……别又被她带歪。');
+  investigate(scr,{
+    intro:'三件事要厘清：技术规范包含啥、JJG/JJF怎么分、系统表规定啥：',
+    acts:[
+      {label:'📖 查」计量技术规范「包含哪些',hint:'谁是外人',clue:'c_spec',
+       reveal:evid('📖 证物：技术规范','包括：国家计量检定系统表、计量检定规程、型式评价大纲、计量校准规范等。<b>」国家测试标准「不属于</b>计量技术规范。检定规程分国家/部门/地方3类。')},
+      {label:'📖 查 JJG / JJF 编号规律',hint:'代号含义',clue:'c_code',
+       reveal:evid('📖 证物：编号','<b>JJG</b>=国家计量检定规程(序号1999以下)；<b>JJG2×××</b>=国家计量检定系统表(2000以上)；<b>JJF</b>=国家计量技术规范。地方/部门规程JJG(中文)××××，括号内中文=<b>批准单位和施行范围</b>。')},
+      {label:'📖 查国家计量检定系统表规定了啥',hint:'溯源核心',clue:'c_sys',
+       reveal:evid('📖 证物：检定系统表','=量值溯源等级图，只有<b>国家</b>一种，国务院计量行政部门<b>组织制定/修订</b>，建立基准的单位起草，一项基准基本对应一个系统表。规定：<b>基准主要计量特性、量值传递程序方法、标准复现保存量值的不确定度、工作器具最大允许误差</b>。全国量值都应直接/间接<b>溯源到计量基准</b>。')},
+    ]
+  },'三关连考，开始',c9q1,3);
+});
+function c9q1(){
+  decideTo(scr,'第①关：下列哪个不属于」计量技术规范「？',[
+    {t:'A. 计量检定规程',ok:false,fav:-1,res:'<span class="rt">❌</span>属于。',kp:CLUE_LIB['c_spec'].body,then:()=>retryBtn(c9q1)},
+    {t:'B. 国家计量检定系统表',ok:false,fav:-1,res:'<span class="rt">❌</span>属于。',kp:CLUE_LIB['c_spec'].body,then:()=>retryBtn(c9q1)},
+    {t:'C. 国家测试标准',ok:true,fav:1,res:'<span class="rt">✅ 揪出外人</span>」国家测试标准「不属于计量技术规范(属于的有检定规程、系统表、型评大纲、校准规范)。',kp:CLUE_LIB['c_spec'].body,then:c9q2},
+    {t:'D. 计量器具型式评价大纲',ok:false,fav:-1,res:'<span class="rt">❌</span>属于。',kp:CLUE_LIB['c_spec'].body,then:()=>retryBtn(c9q1)},
+  ]);
+}
+function c9q2(){
+  scr.insertAdjacentHTML('beforeend', line('bu','沈准','第②关：JJF1059.1《测量不确定度评定与表示》——属于哪类？'));
+  decideTo(scr,'第②关：JJF1059.1《测量不确定度评定与表示》属于？',[
+    {t:'A. 专用计量技术规范',ok:false,fav:-1,res:'<span class="rt">❌</span>不确定度评定人人都用，是通用。',kp:CLUE_LIB['c_code'].body,then:()=>retryBtn(c9q2)},
+    {t:'B. 国家计量检定规程',ok:false,fav:-1,res:'<span class="rt">❌</span>那是JJG。JJF=技术规范。',kp:CLUE_LIB['c_code'].body,then:()=>retryBtn(c9q2)},
+    {t:'C. 通用计量技术规范',ok:true,fav:1,res:'<span class="rt">✅</span>JJF=国家计量技术规范；不确定度评定属<b>通用</b>类。白偏差又猜错。',kp:CLUE_LIB['c_code'].body,then:c9q3},
+    {t:'D. 地方计量技术规范',ok:false,fav:-1,res:'<span class="rt">❌</span>JJF是国家级、通用。',kp:CLUE_LIB['c_code'].body,then:()=>retryBtn(c9q2)},
+  ]);
+}
+function c9q3(){
+  scr.insertAdjacentHTML('beforeend', line('bu','沈准','最后一关。国家计量检定系统表，它规定的核心是什么？答对，你就出师了。'));
+  decideTo(scr,'第③关：国家计量检定系统表规定了哪些内容？(选出」不属于「的那项)',[
+    {t:'A. 计量基准的主要计量特性',ok:false,fav:-1,res:'<span class="rt">❌ 这是它规定的</span>',kp:CLUE_LIB['c_sys'].body,then:()=>retryBtn(c9q3)},
+    {t:'B. 从基准经标准向工作器具传递量值的程序和方法',ok:false,fav:-1,res:'<span class="rt">❌ 这是它规定的</span>',kp:CLUE_LIB['c_sys'].body,then:()=>retryBtn(c9q3)},
+    {t:'C. 标准的不确定度 及 工作器具的最大允许误差',ok:false,fav:-1,res:'<span class="rt">❌ 这是它规定的</span>',kp:CLUE_LIB['c_sys'].body,then:()=>retryBtn(c9q3)},
+    {t:'D. 企业财务报表编制规则',ok:true,fav:2,rep:2,res:'<span class="rt">🎓 出师！</span>系统表规定的是基准主要计量特性、量值传递程序方法、标准不确定度、工作器具最大允许误差——跟财务报表毫无关系。全国量值都应溯源到计量基准。沈准合上卷宗看着你……(好感+2)',kp:CLUE_LIB['c_sys'].body,then:finishCase},
+  ]);
+}
+</script>
+
+</body>
+</html>
