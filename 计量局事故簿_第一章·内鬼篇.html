@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>计量局事故簿 · 第一章 · 内鬼篇</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700;900&family=ZCOOL+KuaiLe&display=swap');
+:root{
+  --ink:#241f2e;--paper:#f3ead6;--paper2:#e7d9bb;--rose:#c84a63;--rose2:#92293f;
+  --gold:#bf9233;--teal:#33756a;--line:#c8b690;--sh:rgba(50,35,25,.22);--blue:#3a5a8c;
+  --mole:#5b2a86;--mole2:#3a1857;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Serif SC',serif;color:var(--ink);min-height:100vh;
+  background:radial-gradient(circle at 15% 5%,rgba(200,74,99,.10),transparent 42%),
+             radial-gradient(circle at 85% 90%,rgba(91,42,134,.12),transparent 45%),var(--paper);
+  display:flex;justify-content:center;padding:18px 10px 70px;}
+.wrap{width:100%;max-width:720px;}
+.title{text-align:center;margin-bottom:12px;}
+.title h1{font-family:'ZCOOL KuaiLe';font-size:28px;color:var(--rose2);text-shadow:2px 2px 0 var(--paper2);}
+.title p{font-size:11px;color:var(--teal);letter-spacing:3px;margin-top:2px;}
+.scr{background:linear-gradient(180deg,#fffaef,#f1e6cd);border:2px solid var(--line);border-radius:16px;
+  box-shadow:0 14px 38px var(--sh),inset 0 0 0 5px rgba(255,255,255,.4);padding:20px 18px;position:relative;overflow:hidden;}
+.scr::after{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--rose),var(--gold),var(--mole));}
+
+.hud{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+.hud .ch{font-family:'ZCOOL KuaiLe';color:var(--rose2);font-size:15px;}
+.tags{display:flex;gap:6px;flex-wrap:wrap;}
+.tag{font-size:11.5px;background:var(--paper2);border:1px solid var(--line);border-radius:18px;padding:3px 10px;white-space:nowrap;}
+.tag b{color:var(--rose2);}
+.tag.cl{cursor:pointer;}
+.tag.cl:hover{background:#fdeccb;}
+.tag.ml{background:#efe4f7;border-color:#c9aee5;}
+.tag.ml b{color:var(--mole);}
+
+.narr{background:rgba(255,255,255,.5);border:1px dashed var(--line);border-radius:10px;
+  padding:12px 14px;font-size:14px;line-height:1.75;margin-bottom:12px;animation:fade .4s;}
+.narr .loc{font-size:12px;color:var(--teal);font-style:italic;display:block;margin-bottom:5px;}
+.narr.big{text-align:center;}
+
+@keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+@keyframes pop{0%{transform:scale(.8);opacity:0;}60%{transform:scale(1.06);}100%{transform:scale(1);opacity:1;}}
+.line{display:flex;gap:9px;margin-bottom:9px;align-items:flex-start;animation:fade .4s;}
+.av{width:36px;height:36px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 3px 7px var(--sh);}
+.bu{background:linear-gradient(135deg,#46466a,#241f2e);}
+.ri{background:linear-gradient(135deg,#dd86a0,#c84a63);}
+.xue{background:linear-gradient(135deg,#7bb6a8,#33756a);}
+.mi{background:linear-gradient(135deg,#e6c267,#bf9233);}
+.npc{background:linear-gradient(135deg,#9a8fb0,#6a5f82);}
+.jia{background:linear-gradient(135deg,#7d4bb0,#3a1857);}
+.sys{background:#1c1c28;}
+.bb{background:#fff;border:1px solid var(--line);border-radius:13px;padding:9px 13px;font-size:14px;line-height:1.62;flex:1;box-shadow:0 2px 5px rgba(0,0,0,.05);}
+.bb .w{display:block;font-size:11px;color:var(--rose2);font-weight:700;margin-bottom:2px;letter-spacing:1px;}
+.bb.s{background:#1c1c28;color:#f3ead6;border-color:#1c1c28;font-size:13.5px;}
+.bb.s .w{color:var(--gold);}
+.bb.m{background:#241433;color:#f0e6fb;border-color:#3a1857;}
+.bb.m .w{color:#c9aee5;}
+
+.evid{background:linear-gradient(180deg,#fff8ea,#fdeccb);border:1px solid var(--gold);border-left:5px solid var(--gold);
+  border-radius:8px;padding:10px 13px;margin:9px 0;font-size:13.5px;line-height:1.68;animation:fade .4s;}
+.evid .et{font-family:'ZCOOL KuaiLe';color:#7a5a14;font-size:14px;display:block;margin-bottom:4px;}
+.evid table{width:100%;border-collapse:collapse;margin-top:5px;font-size:13px;}
+.evid td{border:1px solid #d9c187;padding:4px 8px;vertical-align:top;}
+.evid td:first-child{background:#fbeecb;font-weight:500;width:40%;}
+
+.molecard{background:linear-gradient(180deg,#efe4f7,#e2cff3);border:1px solid #c9aee5;border-left:5px solid var(--mole);
+  border-radius:8px;padding:10px 13px;margin:9px 0;font-size:13.5px;line-height:1.68;animation:pop .4s;}
+.molecard .et{font-family:'ZCOOL KuaiLe';color:var(--mole2);font-size:14px;display:block;margin-bottom:4px;}
+.molecard table{width:100%;border-collapse:collapse;margin-top:5px;font-size:13px;}
+.molecard td{border:1px solid #c9aee5;padding:4px 8px;}
+.molecard td:first-child{background:#e7d6f5;font-weight:500;width:40%;}
+
+.invt{font-size:13px;color:var(--teal);margin:7px 0 8px;font-weight:500;}
+.acts{display:flex;flex-direction:column;gap:8px;}
+.act{text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:10px 13px;font-size:14px;cursor:pointer;font-family:inherit;color:var(--ink);transition:.15s;line-height:1.5;}
+.act:hover{border-color:var(--teal);background:#eef6f3;transform:translateX(3px);}
+.act.used{opacity:.5;cursor:default;border-style:dashed;}
+.act .ai{color:var(--teal);font-size:12px;}
+
+.dec{background:rgba(255,255,255,.7);border:2px solid var(--rose);border-radius:13px;padding:14px;margin-top:10px;animation:fade .4s;}
+.dec .dh{font-weight:700;color:var(--rose2);margin-bottom:11px;font-size:15px;line-height:1.5;}
+.opt{text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:10px 13px;font-size:14px;cursor:pointer;font-family:inherit;color:var(--ink);transition:.15s;width:100%;margin-bottom:8px;line-height:1.55;}
+.opt:hover{border-color:var(--rose);background:#fdf1f3;transform:translateX(3px);}
+.opt:disabled{cursor:default;}
+.opt.ok{background:#e3f3ec;border-color:var(--teal);color:var(--teal);font-weight:600;}
+.opt.no{background:#fbe3e8;border-color:var(--rose);color:var(--rose2);}
+.opt.dim{opacity:.4;}
+
+.fitb{background:#f7f1e2;border:1px dashed var(--teal);border-radius:10px;padding:13px;margin:10px 0;font-size:14px;line-height:2.1;}
+.fitb .fq{font-weight:600;color:#1f5249;margin-bottom:8px;line-height:1.6;}
+.fitb input{font-family:inherit;font-size:15px;width:96px;padding:4px 7px;border:1.5px solid var(--line);border-radius:7px;margin:0 3px;text-align:center;background:#fff;}
+.fitb input.okk{border-color:var(--teal);background:#e3f3ec;}
+.fitb input.noo{border-color:var(--rose);background:#fbe3e8;}
+.fitb .cbtn{background:var(--teal);color:#fff;border:none;border-radius:7px;padding:7px 16px;font-family:inherit;cursor:pointer;font-size:14px;margin-top:6px;}
+.fitb .cbtn:hover{filter:brightness(1.08);}
+
+.sortg{background:#f3eeff;border:1px dashed var(--mole);border-radius:10px;padding:13px;margin:10px 0;}
+.sortg .sq{font-weight:600;color:var(--mole2);margin-bottom:6px;font-size:14px;line-height:1.6;}
+.sortg .hint{font-size:12px;color:#7a6a8a;margin-bottom:10px;}
+.sitem{background:#fff;border:1.5px solid var(--line);border-radius:9px;padding:8px 11px;margin-bottom:8px;font-size:13.5px;}
+.sitem .stext{margin-bottom:6px;line-height:1.5;}
+.sitem .scats{display:flex;gap:6px;flex-wrap:wrap;}
+.scat{font-size:12px;background:#f0eafa;border:1px solid #cbb6e6;border-radius:14px;padding:4px 11px;cursor:pointer;font-family:inherit;color:#4a3666;}
+.scat:hover{background:#e3d4f5;}
+.scat.sel{background:var(--mole);color:#fff;border-color:var(--mole);}
+.sitem.right{border-color:var(--teal);background:#e9f6f1;}
+.sitem.wrong{border-color:var(--rose);background:#fdeef1;}
+.sortg .cbtn{background:var(--mole);color:#fff;border:none;border-radius:7px;padding:7px 16px;font-family:inherit;cursor:pointer;font-size:14px;margin-top:4px;}
+.sortg .cbtn:disabled{opacity:.4;cursor:default;}
+
+.hunt{background:#fffaf0;border:1px solid var(--gold);border-radius:10px;padding:14px;margin:10px 0;}
+.hunt .hq{font-weight:600;color:#7a5a14;margin-bottom:4px;font-size:14px;}
+.hunt .hint{font-size:12px;color:#8a7a60;margin-bottom:10px;}
+.huntdoc{background:#fff;border:1px solid #e3d2a8;border-radius:8px;padding:13px 15px;font-size:14px;line-height:2.05;}
+.hw{cursor:pointer;border-radius:4px;padding:1px 3px;border-bottom:2px dotted #c8b690;transition:.12s;}
+.hw:hover{background:#fdeccb;}
+.hw.mark{background:#fbe3e8;border-bottom:2px solid var(--rose);color:var(--rose2);font-weight:600;}
+.hw.hit{background:#e3f3ec;border-bottom:2px solid var(--teal);color:#1f5249;font-weight:600;}
+.hw.miss{background:#fff3cc;border-bottom:2px solid var(--gold);}
+.hunt .cbtn{background:var(--gold);color:#fff;border:none;border-radius:7px;padding:7px 16px;font-family:inherit;cursor:pointer;font-size:14px;margin-top:10px;}
+.whybox{font-size:12.5px;color:#6a4a14;margin-top:9px;line-height:1.7;}
+.whybox .wi{display:block;margin-bottom:3px;}
+
+.boom{background:linear-gradient(180deg,#fff0f3,#ffe1e8);border:2px solid var(--rose);border-radius:13px;padding:14px;margin-top:10px;animation:pop .4s;}
+.boom .bh{font-family:'ZCOOL KuaiLe';color:var(--rose2);font-size:15px;margin-bottom:8px;}
+
+.res{margin-top:12px;padding:13px 15px;border-radius:10px;font-size:14px;line-height:1.7;animation:fade .35s;}
+.res.g{background:#e3f3ec;border:1px solid var(--teal);color:#1f5249;}
+.res.b{background:#fbe3e8;border:1px solid var(--rose);color:var(--rose2);}
+.res.n{background:#eef1f7;border:1px solid var(--blue);color:#2c4a78;}
+.res.m{background:#efe4f7;border:1px solid var(--mole);color:var(--mole2);}
+.res .rt{font-weight:700;display:block;margin-bottom:4px;}
+
+.kp{background:linear-gradient(180deg,#fff6e6,#ffeac6);border-left:4px solid var(--gold);border-radius:6px;padding:10px 13px;margin-top:10px;font-size:13px;line-height:1.7;color:#684c12;}
+.kp b{color:var(--rose2);}
+
+.btn{margin-top:13px;width:100%;padding:12px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--rose),var(--rose2));color:#fff;font-family:'ZCOOL KuaiLe';font-size:16px;letter-spacing:2px;cursor:pointer;box-shadow:0 6px 15px rgba(146,41,63,.4);transition:transform .12s;}
+.btn:hover{transform:translateY(-2px);}
+.btn.ghost{background:var(--paper2);color:var(--ink);box-shadow:none;border:1px solid var(--line);}
+.btn.teal{background:linear-gradient(135deg,#4a9587,var(--teal));box-shadow:0 6px 15px rgba(51,117,106,.4);}
+.btn.mole{background:linear-gradient(135deg,#7d4bb0,var(--mole2));box-shadow:0 6px 15px rgba(58,24,87,.4);}
+
+.startc{text-align:center;}
+.startc .em{font-size:48px;}
+.startc h2{font-family:'ZCOOL KuaiLe';color:var(--rose2);font-size:22px;margin:6px 0;}
+.startc p{font-size:13.5px;line-height:1.85;color:#5a4a36;margin:9px 4px;}
+.cast{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0;}
+.cast .c{font-size:11.5px;background:var(--paper2);border:1px solid var(--line);border-radius:10px;padding:7px 9px;width:150px;text-align:left;}
+.cast .c .e{font-size:20px;}
+.note{font-size:12px;color:#8a7a60;margin-top:12px;font-style:italic;line-height:1.6;}
+
+.casebar{display:flex;gap:5px;flex-wrap:wrap;margin:10px 0;justify-content:center;}
+.casebar .dot{width:11px;height:11px;border-radius:50%;background:var(--paper2);border:1px solid var(--line);}
+.casebar .dot.done{background:var(--teal);}
+.casebar .dot.now{background:var(--rose);box-shadow:0 0 0 3px rgba(200,74,99,.25);}
+
+.modal{position:fixed;inset:0;background:rgba(30,20,25,.55);display:flex;align-items:center;justify-content:center;z-index:50;padding:20px;animation:fade .25s;}
+.modal .box{background:var(--paper);border:2px solid var(--gold);border-radius:14px;max-width:460px;width:100%;max-height:82vh;overflow:auto;padding:18px;}
+.modal h3{font-family:'ZCOOL KuaiLe';color:var(--rose2);margin-bottom:8px;}
+.modal .ev2{font-size:13px;border-bottom:1px dashed var(--line);padding:8px 0;line-height:1.6;}
+.modal .cx{float:right;cursor:pointer;font-size:18px;color:var(--rose2);}
+.modal .box.m{border-color:var(--mole);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="title"><h1>计量局事故簿</h1><p>第一章 · 内鬼篇 · 影子检定站连环案</p></div>
+  <div class="scr" id="scr"></div>
+</div>
+<script>
+/* ===== 全局状态 ===== */
+const G={fav:0,rep:0,clues:[],mole:[],flags:{},caseIdx:0,badEndings:[],boomQueue:[],mastered:{}};
+const TOTAL_CASES=9;
+const CAST=[
+  {e:"🕴️",n:"沈准",d:"高冷话痨部长，开口必带恋爱比喻；与你联手追查内鬼"},
+  {e:"💋",n:"白偏差",d:"傲娇竞争对手，爱抢功挖坑——似乎被人当了枪使"},
+  {e:"🍵",n:"温溯源",d:"温柔学长，关键时刻递线索与真相"},
+  {e:"🎀",n:"陆量值",d:"咋呼闺蜜，负责复述口诀、突击抽查你"},
+  {e:"🟣",n:"贾印证",d:"？？？——名字像句谶语。每桩案子背后都有他的影子"},
+];
+const AV={bu:'🕴️',ri:'💋',xue:'🍵',mi:'🎀',npc:'👤',jia:'🟣',sys:'📋'};
+const scr=document.getElementById('scr');
+
+/* ===== 渲染原子 ===== */
+function line(av,who,t){return `<div class="line"><div class="av ${av}">${AV[av]||'❓'}</div><div class="bb ${av==='sys'?'s':''}${av==='jia'?' m':''}"><span class="w">${who}</span>${t}</div></div>`;}
+function narr(loc,t,big){return `<div class="narr ${big?'big':''}">${loc?`<span class="loc">📍 ${loc}</span>`:''}${t}</div>`;}
+function evid(title,body){return `<div class="evid"><span class="et">${title}</span>${body}</div>`;}
+function molecard(title,body){return `<div class="molecard"><span class="et">🕸️ ${title}</span>${body}</div>`;}
+function kp(t){return `<div class="kp">${t}</div>`;}
+
+function hud(chap){
+  return `<div class="hud"><span class="ch">${chap}</span><div class="tags">
+    <span class="tag">💗 好感 ${G.fav>=0?'+':''}${G.fav}</span>
+    <span class="tag">⭐ 声望 ${G.rep}</span>
+    <span class="tag cl" onclick="openClues()">🗂️ 线索 <b>${G.clues.length}</b></span>
+    <span class="tag cl ml" onclick="openMole()">🕸️ 证据墙 <b>${G.mole.length}</b></span>
+    </div></div>`;
+}
+function casebar(){let d='';for(let i=0;i<TOTAL_CASES;i++){d+=`<span class="dot ${i<G.caseIdx?'done':i===G.caseIdx?'now':''}"></span>`;}return `<div class="casebar">${d}</div>`;}
+
+/* ===== 线索本 / 证据墙 ===== */
+const CLUE_LIB={};const MOLE_LIB={};
+function addClue(id){if(!G.clues.includes(id))G.clues.push(id);}
+function addMole(id){if(!G.mole.includes(id))G.mole.push(id);}
+function openClues(){
+  let it=G.clues.length?G.clues.map(id=>{const c=CLUE_LIB[id];return c?`<div class="ev2"><b style="color:#7a5a14">${c.t}</b><br>${c.body}</div>`:'';}).join(''):'<p style="font-size:13px;color:#8a7a60">还没收集到线索。多调查、多翻规定就会攒下来。</p>';
+  popup('🗂️ 线索本 · 你掌握的条文',it,false);
+}
+function openMole(){
+  let it=G.mole.length?G.mole.map(id=>{const c=MOLE_LIB[id];return c?`<div class="ev2"><b style="color:#5b2a86">🕸️ ${c.t}</b><br>${c.body}</div>`:'';}).join(''):'<p style="font-size:13px;color:#8a7a60">证据墙空着。沿主线调查，造假的破绽会一条条钉上来。</p>';
+  popup('🕸️ 证据墙 · 影子检定站',it+`<p style="font-size:12px;color:#7a6a8a;margin-top:10px">凑齐线索，终章才能当面钉死贾印证。已钉 <b>${G.mole.length}</b> 块。</p>`,true);
+}
+function popup(title,inner,mole){
+  const m=document.createElement('div');m.className='modal';m.id='pm';
+  m.innerHTML=`<div class="box ${mole?'m':''}"><span class="cx" onclick="document.getElementById('pm').remove()">✕</span><h3>${title}</h3>${inner}</div>`;
+  m.onclick=e=>{if(e.target===m)m.remove();};document.body.appendChild(m);
+}
+
+/* ===== 数值 / 旗标 ===== */
+function fxFav(d){G.fav+=d;}function fxRep(d){G.rep+=d;}
+function setFlag(k,v){G.flags[k]=(v===undefined?true:v);}function flag(k){return !!G.flags[k];}
+
+/* ===== 错题回旋镖 ===== */
+const BOOM_LIB={};
+function recordWrong(id){if(!id||!BOOM_LIB[id]||G.mastered[id])return;if(!G.boomQueue.includes(id))G.boomQueue.push(id);}
+function clearWrong(id){G.boomQueue=G.boomQueue.filter(x=>x!==id);}
+
+/* ===== 调查取证 ===== */
+function investigate(container,items,contLabel,contFn,minClues){
+  let html=`<div class="invt">🔍 ${items.intro||'动笔前，先调查取证：'}</div><div class="acts" id="actbox">`;
+  items.acts.forEach((a,i)=>{html+=`<button class="act" onclick="window.__inv(${i})">${a.label}${a.hint?` <span class="ai">（${a.hint}）</span>`:''}</button>`;});
+  html+=`</div><div id="invdyn"></div>`;
+  container.insertAdjacentHTML('beforeend',html);
+  let got=0;
+  window.__inv=function(i){
+    const btns=document.querySelectorAll('#actbox .act');
+    if(btns[i].classList.contains('used'))return;
+    btns[i].classList.add('used');
+    const a=items.acts[i];
+    if(a.clue)addClue(a.clue);if(a.mole)addMole(a.mole);
+    document.getElementById('invdyn').insertAdjacentHTML('beforeend',a.reveal);
+    got++;
+    if(got>=(minClues||1)&&!document.getElementById('contbtn')){
+      document.getElementById('invdyn').insertAdjacentHTML('beforeend',`<button class="btn" id="contbtn" onclick="(${contFn.name})()">${contLabel} →</button>`);
+    }
+  };
+}
+
+/* ===== 决策 ===== */
+function decideTo(container,head,opts,conceptId){
+  const did='dec_'+Math.random().toString(36).slice(2,7);
+  let html=`<div class="dec" id="${did}"><div class="dh">⚖️ ${head}</div>`;
+  opts.forEach((o,i)=>{html+=`<button class="opt" onclick="window.__dec2(${i})">${o.t}</button>`;});
+  html+=`</div><div id="${did}_res"></div>`;
+  container.insertAdjacentHTML('beforeend',html);
+  const decEl=document.getElementById(did),resEl=document.getElementById(did+'_res');
+  window.__decres=resEl;
+  window.__dec2=function(i){
+    decEl.querySelectorAll('.opt').forEach((b,j)=>{b.disabled=true;
+      if(opts[j].ok)b.classList.add('ok');if(j===i&&!opts[i].ok)b.classList.add('no');if(!opts[j].ok&&j!==i)b.classList.add('dim');});
+    const o=opts[i];
+    if(o.fav)fxFav(o.fav);if(o.rep)fxRep(o.rep);if(o.flag)setFlag(o.flag);if(o.bad)G.badEndings.push(o.bad);
+    if(conceptId){if(o.ok)clearWrong(conceptId);else recordWrong(conceptId);}
+    resEl.innerHTML=`<div class="res ${o.ok?'g':'b'}">${o.res}</div>`+(o.kp?kp(o.kp):'');
+    o.then();
+  };
+}
+function retryBtn(fn){(window.__decres||document.getElementById('scr')).insertAdjacentHTML('beforeend',`<button class="btn ghost" onclick="(${fn.name})()">↺ 重新判断这一步</button>`);}
+
+/* ===== 玩法①：输入作答 ===== */
+function normalize(s){
+  if(s==null)return '';
+  s=(''+s).trim().toLowerCase();
+  s=s.replace(/[０-９]/g,c=>String.fromCharCode(c.charCodeAt(0)-0xfee0)).replace(/[Ａ-Ｚａ-ｚ]/g,c=>String.fromCharCode(c.charCodeAt(0)-0xfee0));
+  s=s.replace(/[\s，,。、；;：:《》""''（）()]/g,'');
+  return s;
+}
+function fillIn(container,opts){
+  let tpl=opts.template.replace(/\{(\d+)\}/g,(m,n)=>`<input id="fb_${n}" autocomplete="off" placeholder="?">`);
+  container.insertAdjacentHTML('beforeend',
+    `<div class="fitb"><div class="fq">✍️ ${opts.q}</div>${tpl}<div><button class="cbtn" onclick="window.__fitb()">提交作答</button></div><div id="fbres"></div></div>`);
+  window.__fitb=function(){
+    let allok=true;
+    opts.blanks.forEach((b,i)=>{
+      const el=document.getElementById('fb_'+i);if(!el)return;
+      const v=normalize(el.value);
+      const ok=v!==''&&b.accept.some(a=>normalize(a)===v);
+      el.classList.remove('okk','noo');el.classList.add(ok?'okk':'noo');
+      if(!ok)allok=false;
+    });
+    const r=document.getElementById('fbres');
+    if(allok){
+      if(opts.conceptId)clearWrong(opts.conceptId);
+      r.innerHTML=`<div class="res g" style="margin-top:9px"><span class="rt">✅ 全对，自己默出来的才记得牢</span>${opts.okText||''}</div>`+(opts.kp?kp(opts.kp):'');
+      opts.pass();
+    }else{
+      if(opts.conceptId)recordWrong(opts.conceptId);
+      r.innerHTML=`<div class="res b" style="margin-top:9px"><span class="rt">❌ 还有空没对</span>${opts.hint||'红框的再想想，可翻线索本。'}</div>`;
+    }
+  };
+}
+
+/* ===== 玩法②：归类（点选式） ===== */
+function sortGame(container,opts){
+  const gid='sg_'+Math.random().toString(36).slice(2,7);
+  let html=`<div class="sortg" id="${gid}"><div class="sq">🗂️ ${opts.q}</div>${opts.hint?`<div class="hint">${opts.hint}</div>`:''}`;
+  opts.items.forEach((it,i)=>{
+    html+=`<div class="sitem" id="${gid}_it${i}"><div class="stext">${it.t}</div><div class="scats">`;
+    opts.cats.forEach(c=>{html+=`<button class="scat" onclick="window.__sgPick(${i},'${c.id}')" data-it="${i}" data-cat="${c.id}">${c.label}</button>`;});
+    html+=`</div></div>`;
+  });
+  html+=`<button class="cbtn" id="${gid}_chk" disabled onclick="window.__sgChk()">对答案</button><div id="${gid}_res"></div></div>`;
+  container.insertAdjacentHTML('beforeend',html);
+  const assign={};
+  window.__sgPick=function(i,cat){
+    if(document.getElementById(gid+'_it'+i).classList.contains('right'))return;
+    assign[i]=cat;
+    document.querySelectorAll('.scat[data-it="'+i+'"]').forEach(b=>b.classList.toggle('sel',b.dataset.cat===cat));
+    if(Object.keys(assign).length===opts.items.length)document.getElementById(gid+'_chk').disabled=false;
+  };
+  window.__sgChk=function(){
+    let allok=true;
+    opts.items.forEach((it,i)=>{
+      const el=document.getElementById(gid+'_it'+i);
+      if(el.classList.contains('right'))return;
+      if(assign[i]===it.cat){el.classList.remove('wrong');el.classList.add('right');el.querySelectorAll('.scat').forEach(b=>b.disabled=true);}
+      else{el.classList.add('wrong');allok=false;el.querySelectorAll('.scat').forEach(b=>b.classList.remove('sel'));delete assign[i];}
+    });
+    const r=document.getElementById(gid+'_res');
+    if(allok){
+      if(opts.conceptId)clearWrong(opts.conceptId);
+      document.getElementById(gid+'_chk').style.display='none';
+      r.innerHTML=`<div class="res g" style="margin-top:9px"><span class="rt">✅ 全部归类正确</span>${opts.okText||''}</div>`+(opts.kp?kp(opts.kp):'');
+      opts.pass();
+    }else{
+      if(opts.conceptId)recordWrong(opts.conceptId);
+      document.getElementById(gid+'_chk').disabled=true;
+      r.innerHTML=`<div class="res b" style="margin-top:9px"><span class="rt">❌ 红色的归错了</span>它们已清空，重新归类再对一次。</div>`;
+    }
+  };
+}
+
+/* ===== 玩法③：文书找茬 ===== */
+function huntGame(container,opts){
+  const hid='hg_'+Math.random().toString(36).slice(2,7);
+  let doc='';
+  opts.segs.forEach((s,i)=>{doc+=`<span class="hw" id="${hid}_s${i}" onclick="window.__hMark(${i})">${s.t}</span>`;});
+  container.insertAdjacentHTML('beforeend',
+    `<div class="hunt" id="${hid}"><div class="hq">🔎 ${opts.q}</div><div class="hint">${opts.hint||'点出你认为有问题的字句（可多处），再提交。'}</div><div class="huntdoc">${doc}</div><button class="cbtn" onclick="window.__hSubmit()">提交圈定</button><div id="${hid}_res"></div></div>`);
+  let marked=new Set();
+  window.__hMark=function(i){
+    const el=document.getElementById(hid+'_s'+i);
+    if(el.classList.contains('locked'))return;
+    if(marked.has(i)){marked.delete(i);el.classList.remove('mark');}else{marked.add(i);el.classList.add('mark');}
+  };
+  window.__hSubmit=function(){
+    let perfect=true,why='';
+    opts.segs.forEach((s,i)=>{
+      const el=document.getElementById(hid+'_s'+i);el.classList.add('locked');
+      const m=marked.has(i);
+      if(s.bad&&m){el.classList.remove('mark');el.classList.add('hit');why+=`<span class="wi">✅ 「${s.t.trim()}」——${s.why}</span>`;}
+      else if(s.bad&&!m){el.classList.add('miss');perfect=false;why+=`<span class="wi">⚠️ 漏了「${s.t.trim()}」——${s.why}</span>`;}
+      else if(!s.bad&&m){el.classList.add('miss');perfect=false;why+=`<span class="wi">❌ 「${s.t.trim()}」其实没问题，误圈了。</span>`;}
+    });
+    const r=document.getElementById(hid+'_res');
+    if(perfect){
+      if(opts.conceptId)clearWrong(opts.conceptId);
+      r.innerHTML=`<div class="res g" style="margin-top:9px"><span class="rt">✅ 火眼金睛，全部命中</span><div class="whybox">${why}</div></div>`+(opts.kp?kp(opts.kp):'');
+      opts.pass();
+    }else{
+      if(opts.conceptId)recordWrong(opts.conceptId);
+      opts.segs.forEach((s,i)=>{const el=document.getElementById(hid+'_s'+i);el.classList.remove('locked','hit','miss','mark');});
+      marked.clear();
+      r.innerHTML=`<div class="res b" style="margin-top:9px"><span class="rt">❌ 没全中</span><div class="whybox">${why}</div></div><button class="btn ghost" onclick="document.getElementById('${hid}_res').innerHTML=''">↺ 看明白了，再圈一次</button>`;
+    }
+  };
+}
+
+/* ===== 调度 ===== */
+const CASES=[];
+function nextCase(){
+  if(G.boomQueue.length){runBoomerang();return;}
+  if(G.caseIdx>=CASES.length){grandFinale();return;}
+  CASES[G.caseIdx]();
+}
+function finishCase(){
+  G.caseIdx++;
+  scr.innerHTML=hud("—— 案件归档 ——")+casebar()+
+    narr("","<div style='text-align:center;font-size:38px'>🗂️</div><div style='text-align:center'>本案归档。卷宗放进沈准桌上那摞越来越高的文件里——其中一页，被他悄悄抽出来夹进了另一个牛皮纸袋。<br>"+
+    (G.caseIdx<CASES.length?"下一桩事故，已经在路上了。":"全部事故处理完毕。")+"</div>",true)+
+    `<button class="btn" onclick="nextCase()">${G.caseIdx<CASES.length?'接手下一桩 →':'摊牌，钉死内鬼 →'}</button>`;
+}
+
+/* ===== 回旋镖突击 ===== */
+function runBoomerang(){
+  const id=G.boomQueue[0];const b=BOOM_LIB[id];
+  if(!b){G.boomQueue.shift();nextCase();return;}
+  const w=Math.random()<.5?['mi','陆量值','唉我突击抽查你！上次你这题错了，这次必须答对哦～']:['ri','白偏差','新人，上次你在这儿翻过车。还记得正解吗？答错可别怪我看笑话。'];
+  scr.innerHTML=hud("⚡ 突击抽查")+casebar()+
+    narr("茶水间 · 路过","刚要去下一桩，被截住——上次这个点你判错过，正好再考你一次。")+line(w[0],w[1],w[2]);
+  let html=`<div class="boom"><div class="bh">🎯 错题回旋镖：${b.q}</div>`;
+  b.opts.forEach((o,i)=>{html+=`<button class="opt" onclick="window.__boom(${i})">${o.t}</button>`;});
+  html+=`</div><div id="boomres"></div>`;
+  scr.insertAdjacentHTML('beforeend',html);
+  window.__boom=function(i){
+    document.querySelectorAll('.boom .opt').forEach((bt,j)=>{bt.disabled=true;
+      if(b.opts[j].ok)bt.classList.add('ok');if(j===i&&!b.opts[i].ok)bt.classList.add('no');if(!b.opts[j].ok&&j!==i)bt.classList.add('dim');});
+    const o=b.opts[i];const r=document.getElementById('boomres');
+    if(o.ok){
+      G.mastered[id]=true;G.boomQueue.shift();fxRep(1);
+      r.innerHTML=`<div class="res g"><span class="rt">✅ 这次记住了（声望+1）</span>${b.kp||''}</div><button class="btn" onclick="nextCase()">继续 →</button>`;
+    }else{
+      r.innerHTML=`<div class="res b"><span class="rt">❌ 又错……这点是真没吃透</span>${b.kp||''}</div><button class="btn ghost" onclick="runBoomerang()">↺ 再来一次（答对才放行）</button>`;
+    }
+  };
+}
+
+/* ===== 开场 ===== */
+function intro(){
+  Object.assign(G,{fav:0,rep:0,clues:[],mole:[],flags:{},caseIdx:0,badEndings:[],boomQueue:[],mastered:{}});
+  let cast=CAST.map(c=>`<div class="c"><span class="e">${c.e}</span> <b>${c.n}</b><br><span style="color:#7a6a55">${c.d}</span></div>`).join('');
+  scr.innerHTML=`<div class="startc">
+    <div class="em">🕵️‍♀️🕸️📋</div>
+    <h2>欢迎入职 · 计量监督管理局</h2>
+    <p>你是新来的实习生。报到第一天，沈准就压低声音告诉你：<br><b>「这座城市的『合格』印章，有一批是假的。」</b></p>
+    <p>九桩看似无关的事故，串着同一条暗线——一个叫<b>「影子检定站」</b>的造假网络，正把<b>不合格器具</b>洗成「检定合格」。每破一案，你都会在<b>证据墙</b>上钉下一片真相，最终指向同一个人。</p>
+    <p>这一回<b>不靠认 ABCD</b>：你要<b>亲手默写条文、把条目归类、在卷宗里揪错、被错题回旋镖追着复习</b>。条文不是用来背的，是你<b>定性、拆局、算数、钉死内鬼</b>的武器。</p>
+    <div class="cast">${cast}</div>
+    <p class="note">📚 覆盖第一章 第一节（法律法规与监督管理）＋ 第二节（计量技术规范）全部考点，共 ${TOTAL_CASES} 桩连环案。</p>
+    <button class="btn mole" onclick="nextCase()">推开计量局的门 →</button>
+  </div>`;
+}
+
+/* ===== 大结局 ===== */
+function grandFinale(){
+  let em,grade,msg;const bad=G.badEndings.length,moles=G.mole.length;
+  if(G.fav>=8&&G.rep>=8&&bad===0&&moles>=8){
+    em="👑🕸️💘";grade="终章 · 钉死内鬼 + 沈准正式告白";
+    msg="九桩事故零失误，证据墙铁证如山。贾印证当庭被你用『假印证、错层级、伪编号』三连击钉死。沈准在全局面前合上最后一本卷宗：『从你报到那天我就在想——你的量值，能不能只溯源到我这里。』全局起哄，白偏差气到摔笔，却也终于摆脱了被人当枪使的日子。";
+  }else if(G.fav>=4&&G.rep>=4&&moles>=5){
+    em="🏅🕸️💗";grade="终章 · 揪出内鬼 + 暧昧未明";
+    msg="你扳倒了影子检定站，证据墙立了功。贾印证落网，只留了点尾巴待查。沈准罕见地约你：『结案了，加个班，吃个饭，聊聊……工作以外的事。』话没说完，你懂了。";
+  }else if(bad>=3||moles<4){
+    em="🌧️";grade="终章 · 险象环生的转正";
+    msg="案子办完，内鬼也算抓住，但你留下一串后遗症：被退过的卷宗、得罪过的店家、被白偏差钻过的空子，证据墙还缺几块拼图。沈准叹气：『底子不差，就是太毛躁。再练一年。』";
+  }else{
+    em="📗🕸️";grade="终章 · 合格转正";
+    msg="平稳落地，影子检定站被端。沈准把第一章条文整理成一本送你：『下一章更难，内鬼也更深。我等你跟上。』";
+  }
+  scr.innerHTML=hud("—— 第一章 · 终 ——")+casebar()+
+    `<div class="narr big"><div style="font-size:50px">${em}</div>
+      <div style="font-family:'ZCOOL KuaiLe';color:var(--rose2);font-size:24px;margin:8px 0">${grade}</div>
+      <p style="font-size:14px;line-height:1.85;color:#5a4a36">${msg}</p>
+      <p style="font-size:13px;color:#8a7a60;margin-top:10px">最终好感 ${G.fav>=0?'+':''}${G.fav} · 声望 ${G.rep} · 线索 ${G.clues.length} 条 · 证据墙 ${G.mole.length} 块 · 失误 ${bad} 次</p></div>
+    ${kp("<b>你这一路真正『用出来』的考点</b>：调整范围 · 法规体系三层 · 处分vs处罚 · 监督职责边界 · 计量授权4形式与去向 · 授权证书期限 · 计量标准建立权限 · 仲裁检定依据 · 强制检定范围 · 检定印证 · 零售称重负偏差(自己算) · 定量包装允许短缺量(自己算) · 型式批准两步 · 技术规范分类 · JJG/JJF编号 · 检定系统表溯源。")}
+    <button class="btn mole" onclick="intro()">🔄 重开一周目（换选择走不同剧情）</button>`;
+}
+
+/* ============================================================
+   案 1 · 体重秤疑云
+   ============================================================ */
+CLUE_LIB['c_scope']={t:'《计量法》调整范围',body:'使用计量单位、建立基准标准、计量检定(含认证)、制造修理销售使用计量器具、仲裁检定调解纠纷、计量监督管理等法律关系。家庭自用计量器具不调整；侧重危害国家人民利益的问题。'};
+CLUE_LIB['c_tiers']={t:'计量法规体系·三层',body:'①法律：仅《计量法》。②行政法规：国务院定，7个(一细则、三单位、二办法、一国防)。③规章：一堆《XX办法》。名字带"办法"≠规章。'};
+MOLE_LIB['m1']={t:'第一块：可疑的合格印',body:'大爷那台秤的"检定合格印"年号与字体都不对，疑似套印。来源：惠民优品日杂店。影子检定站第一次露头。'};
+BOOM_LIB['c_scope']={q:'下列哪种情形《计量法》不予调整？',opts:[{t:'商店销售计量器具',ok:false},{t:'居民买回家给孩子量体重的自用秤',ok:true},{t:'企业建立计量标准',ok:false}],kp:kp('家庭自用计量器具<b>不</b>调整；销售/制造/检定/建标才归《计量法》。')};
+BOOM_LIB['c_tiers']={q:'《强制检定的工作计量器具检定管理办法》属于哪一层级？',opts:[{t:'计量法律',ok:false},{t:'计量行政法规（"二办法"之一）',ok:true},{t:'计量规章',ok:false}],kp:kp('名字带"办法"≠规章。它是行政法规"二办法"之一。')};
+
+CASES.push(function(){
+  scr.innerHTML=hud("案壹 · 体重秤疑云")+casebar()+
+    narr("计量局大厅 · 周一上午九点","你刚挂好工牌，大厅就炸了。一个穿背心的大爷拎着一台<b>体重秤</b>拍在前台。")+
+    line('npc','大爷','我这秤！上礼拜在你们认证的店里买的！称我孙子老变数！我要告它！让《计量法》制裁这破店！')+
+    line('ri','白偏差','（抢先）秤不准就是计量问题，立案查那家店啊！我替你把立案单填上咯？')+
+    line('bu','沈准','等一下。谈恋爱要先搞清对方是不是"我该管的人"，办案也一样。这案子<b>归不归《计量法》管</b>，你别急着填单。再说……这印章，我看着不太对。');
+  investigate(scr,{intro:'动笔前调查取证：',acts:[
+    {label:'📖 翻《计量法》调整范围条文',hint:'它管哪些事',clue:'c_scope',
+     reveal:evid('📖 证物：调整范围','调整：①使用计量单位 ②建立基准/标准 ③计量检定(含认证) ④<b>制造、修理、销售、使用</b>计量器具 ⑤仲裁检定/调解纠纷 ⑥计量监督管理产生的法律关系。<b>侧重"危害国家和人民利益"的计量问题，非"所有"问题。</b>')},
+    {label:'🍵 找学长温溯源问两句',hint:'他总能点醒你',clue:'c_scope',
+     reveal:line('xue','温溯源','别被"秤不准"带跑。<b>那家店"销售"计量器具</b>归管；可大爷买回家给孙子<b>自用</b>的这台，是"家庭自用计量器具"，恰恰<b>不</b>调整。')},
+    {label:'🔎 翻看秤底的检定合格印',hint:'物证·主线',mole:'m1',
+     reveal:molecard('物证：合格印不对劲','<table><tr><td>印面年号</td><td>与本市当年制式<b>不符</b></td></tr><tr><td>字体</td><td>疑似套印/翻印</td></tr><tr><td>来源</td><td>"惠民优品"日杂店</td></tr></table>沈准盯着印章："这家店卖的器具，合格印是假的。先记下。"')},
+  ]},'线索够了，先分个类',c1sort,2);
+});
+function c1sort(){
+  sortGame(scr,{q:'把下面几件事分清：哪些归《计量法》调整，哪些不调整？',hint:'归错会清空重来——目标是分得清，不是猜得中。',
+    cats:[{id:'in',label:'✅ 归《计量法》调整'},{id:'out',label:'🚫 不予调整'}],
+    items:[
+      {t:'惠民优品店"销售"计量器具的行为',cat:'in'},
+      {t:'大爷买回家给孙子量体重的"自用"秤',cat:'out'},
+      {t:'某企业"建立"本单位计量标准',cat:'in'},
+      {t:'对一批器具进行"计量检定/认证"',cat:'in'},
+      {t:'居民家里厨房用、不做买卖的台秤',cat:'out'},
+    ],conceptId:'c_scope',okText:'销售/制造/检定/建标→调整；纯家庭自用→不调整。',kp:CLUE_LIB['c_scope'].body,pass:c1decide});
+}
+function c1decide(){
+  decideTo(scr,'这位大爷的诉求，《计量法》该怎么处理？',[
+    {t:'A. 全立案：卖秤的店和这台自用秤一起查办',ok:false,fav:-1,bad:'c1-over',res:'<span class="rt">❌ 跟白偏差一起翻车</span>家里自用器具不调整，店家可反告越权。<b>(后遗症：越权记录)</b>',kp:CLUE_LIB['c_scope'].body,then:()=>retryBtn(c1decide)},
+    {t:'B. 拆开看：店"销售"归管；"家庭自用"那台不调整，只就"销售"环节立案',ok:true,fav:1,rep:1,res:'<span class="rt">✅ 拆得清楚</span>自用秤不予立案、可先帮大爷送检；依"销售"环节核查店家，顺带把那枚假合格印立了案。沈准签字：『……比某些人强。』',kp:CLUE_LIB['c_scope'].body,then:c1twist},
+    {t:'C. 全不管：体重秤又不做生意，一概不管',ok:false,fav:-1,bad:'c1-miss',res:'<span class="rt">❌ 放太松</span>店"销售"计量器具本归管，假合格印也跟着溜走。',kp:CLUE_LIB['c_scope'].body,then:()=>retryBtn(c1decide)},
+  ],'c_scope');
+}
+function c1twist(){
+  scr.innerHTML=hud("案壹 · 转折")+casebar()+
+    narr("茶水间 · 半小时后","白偏差不甘心，塞给你一份文件想『按它把店重罚』。她身后，似乎有人递了张纸条。")+
+    line('ri','白偏差','《强制检定的工作计量器具检定管理办法》——名字带"办法"，肯定是"规章"！规章弹性大，咱想怎么罚就怎么罚！')+
+    line('xue','温溯源','名字带"办法"就一定是规章？这份文件的<b>层级</b>，可不像她说的。是谁让你这么干的？');
+  investigate(scr,{intro:'核实文件层级（用错层级=用错权限）：',acts:[
+    {label:'📚 对照"计量法规体系"三层',hint:'法律/行政法规/规章',clue:'c_tiers',
+     reveal:evid('📚 证物：法规体系·三层','<b>①法律</b>：仅《计量法》。<br><b>②行政法规</b>：国务院定，7个。口诀"一细则、三单位、<b>二办法</b>、一国防"——"二办法"=《进口计量器具监督管理办法》＋《<b>强制检定的工作计量器具检定管理办法</b>》。<br><b>③规章</b>：《计量基准管理办法》《标准物质管理办法》等一堆。')},
+  ]},'我来归个类',c1tier,1);
+}
+function c1tier(){
+  sortGame(scr,{q:'把这几份文件按"三层"归类（拆穿白偏差的"办法=规章"）：',
+    cats:[{id:'law',label:'法律'},{id:'reg',label:'行政法规'},{id:'rule',label:'规章'}],
+    items:[
+      {t:'《中华人民共和国计量法》',cat:'law'},
+      {t:'《强制检定的工作计量器具检定管理办法》',cat:'reg'},
+      {t:'《进口计量器具监督管理办法》',cat:'reg'},
+      {t:'《计量基准管理办法》',cat:'rule'},
+    ],conceptId:'c_tiers',okText:'"二办法"是行政法规；带"办法"的基准/物质管理才是规章；法律只有《计量法》。',kp:CLUE_LIB['c_tiers'].body,pass:c1end});
+}
+function c1end(){
+  scr.insertAdjacentHTML('beforeend',line('bu','沈准','『记得这么清楚……层级用错，处理权限全错。白偏差被人塞了张纸条——这事不简单。』下班一起吃个饭？算工作总结。')+kp('白偏差被谁指使？纸条没看清。<b>影子检定站的线，开始牵到局里人。</b>'));
+  scr.insertAdjacentHTML('beforeend',`<button class="btn" onclick="finishCase()">归档本案 →</button>`);
+}
+
+/* ============================================================
+   案 2 · 谁有权罚（压力表）
+   ============================================================ */
+CLUE_LIB['c_punish']={t:'处分 vs 处罚',body:'县级以上计量行政部门(及计量监督员)→可现场处理、行政处罚(罚款/没收)。部门、企事业单位、上级主管部门→只能行政处分，无处罚权。'};
+CLUE_LIB['c_supervisor']={t:'计量监督员',body:'县级以上政府计量行政部门按需设置；考核合格后由其任命颁证；在规定区域巡回检查，可在权限内现场处理违法行为、执行行政处罚。'};
+MOLE_LIB['m2']={t:'第二块：同款假证书',body:'压力表附的《检定合格证》印章纹路，与案壹假合格印同源——影子检定站在批量"洗白"不合格器具。'};
+BOOM_LIB['c_punish']={q:'企业的上级主管部门，对违法企业能做什么？',opts:[{t:'罚款并没收器具',ok:false},{t:'只能给责任人行政处分，无处罚权',ok:true},{t:'吊销营业执照',ok:false}],kp:kp('处罚(罚款/没收)是计量行政部门的权；上级主管/单位只能<b>处分</b>。')};
+
+CASES.push(function(){
+  scr.innerHTML=hud("案贰 · 谁有权罚")+casebar()+
+    narr("某机械厂 · 现场检查","厂里被查出长期使用一台不合格压力表。它居然还附着一张《检定合格证》。该厂上级主管部门也派人来，气势汹汹要『从重处理』。")+
+    line('npc','上级主管部门','这事交给我们！我们直接<b>没收</b>压力表、再<b>罚他一笔款</b>，给你们省事！')+
+    line('ri','白偏差','对对，让上级出面罚，又快又狠！新人记下来。')+
+    line('xue','温溯源','上级主管部门有"罚款、没收"的权吗？处分和处罚，可不是一回事。还有这张合格证……眼熟。');
+  investigate(scr,{intro:'先弄清"谁能罚、能罚什么"，再看那张证：',acts:[
+    {label:'📖 查"处分"与"处罚"的权限归属',hint:'易混高频',clue:'c_punish',
+     reveal:evid('📖 证物：处分≠处罚','<b>计量行政部门(及计量监督员)</b>：现场处理、<b>行政处罚</b>(罚款/没收等)。<br><b>部门/企事业单位/上级主管部门</b>：只能<b>行政处分</b>，<b>无处罚权</b>。')},
+    {label:'🍵 问"计量监督员"能干嘛',hint:'谁现场执法',clue:'c_supervisor',
+     reveal:line('xue','温溯源','现场执法是<b>计量监督员</b>的活——县级以上政府计量行政部门任命颁证，巡回检查，可在权限内现场处理、执行行政处罚。上级主管部门没这权。')},
+    {label:'🔎 比对压力表那张《检定合格证》',hint:'物证·主线',mole:'m2',
+     reveal:molecard('物证：又见假证','<table><tr><td>印章纹路</td><td>与案壹假合格印<b>同源</b></td></tr><tr><td>器具实况</td><td>不合格却持"合格证"</td></tr></table>影子检定站在<b>批量洗白</b>不合格器具。')},
+  ]},'心里有数了',c2sort,2);
+});
+function c2sort(){
+  sortGame(scr,{q:'把各主体能做的事归类：谁能"行政处罚"，谁只能"行政处分"？',
+    cats:[{id:'fa',label:'可行政处罚(罚款/没收)'},{id:'fen',label:'只能行政处分'}],
+    items:[
+      {t:'县级以上计量行政部门',cat:'fa'},
+      {t:'计量监督员（权限内·现场）',cat:'fa'},
+      {t:'企业的上级主管部门',cat:'fen'},
+      {t:'违法者所在的企事业单位',cat:'fen'},
+    ],conceptId:'c_punish',okText:'处罚=计量行政部门(含监督员)；处分=单位/上级主管。',kp:CLUE_LIB['c_punish'].body,pass:c2decide});
+}
+function c2decide(){
+  decideTo(scr,'对这台不合格压力表的违法行为，正确处理是？',[
+    {t:'A. 同意上级主管部门"没收+罚款"',ok:false,fav:-1,bad:'c2-power',res:'<span class="rt">❌ 给错了权</span>上级主管部门<b>无处罚权</b>，只能行政处分。',kp:CLUE_LIB['c_punish'].body,then:()=>retryBtn(c2decide)},
+    {t:'B. 由计量行政部门(及监督员)依法行政处罚；上级主管部门最多给责任人行政处分',ok:true,fav:1,rep:1,res:'<span class="rt">✅ 权责分明</span>罚款没收属计量行政部门；上级主管部门只能对责任人处分。你还把那张假合格证扣下送检——证据墙+1。沈准点头：『分得清"谁有权"，比急着罚重要。』',kp:CLUE_LIB['c_punish'].body,then:finishCase},
+    {t:'C. 谁都别罚，处分一下算了',ok:false,fav:-1,bad:'c2-soft',res:'<span class="rt">❌ 漏掉处罚</span>该由计量行政部门处罚的，降格成处分=放纵违法。',kp:CLUE_LIB['c_punish'].body,then:()=>retryBtn(c2decide)},
+  ],'c_punish');
+}
+
+/* ============================================================
+   案 3 · 越界的研发部
+   ============================================================ */
+CLUE_LIB['c_duty']={t:'计量行政部门职责',body:'①贯彻方针政策、推行法定计量单位 ②制定规划、建立基准和社会公用标准、组织量值传递 ③监督制造修理销售使用计量器具 ④计量认证、组织仲裁检定、调解纠纷 ⑤监督检查法规实施。不负责"研发测量仪器"。'};
+MOLE_LIB['m3']={t:'第三块：来买"资格"的人',body:'研发部主任真正想要的不是研发帮助，而是"花钱拿一张检定资格"。影子检定站在物色能发证的下线。'};
+BOOM_LIB['c_duty']={q:'下列哪项不属于计量行政部门职责？',opts:[{t:'推行法定计量单位',ok:false},{t:'组织量值传递',ok:false},{t:'替企业研发新型测量仪器',ok:true}],kp:kp('研发仪器是企业/科研的事，不在计量行政部门法定职责内。')};
+
+CASES.push(function(){
+  scr.innerHTML=hud("案叁 · 越界的研发部")+casebar()+
+    narr("接待室","某公司研发部主任来访，张口就要计量局『帮个忙』。")+
+    line('npc','研发部主任','听说你们技术强！能不能<b>帮我们研发一台新型测量仪器</b>？算计量工作的一部分嘛！实在不行……我出钱，你们给我家产品出个"合格"也成？')+
+    line('mi','陆量值','研发新仪器……这也算计量相关吧？要不帮一把显得热心？')+
+    line('bu','沈准','职责是有边界的，就像爱也有分寸。哪些是我们的事，哪件绝对不是——你来分。注意他后半句。');
+  investigate(scr,{intro:'先核对法定职责清单，再听他真实意图：',acts:[
+    {label:'📖 调出计量行政部门职责清单',hint:'5项法定职责',clue:'c_duty',
+     reveal:evid('📖 证物：法定职责','①贯彻方针政策、推行法定计量单位 ②制定规划、建立基准与社会公用标准、<b>组织量值传递</b> ③监督制造修理销售使用计量器具 ④<b>计量认证、组织仲裁检定、调解纠纷</b> ⑤监督检查法规实施。<b>没有"研发测量仪器"。</b>')},
+    {label:'🔎 追问他"出钱出合格"的意思',hint:'物证·主线',mole:'m3',
+     reveal:molecard('物证：他想买"资格"','主任真正想要的不是研发帮助，而是<b>花钱拿一张"检定合格"</b>。影子检定站在物色能发证的下线——这次找上了你们局。')},
+  ]},'对照完了，先填空',c3fill,2);
+});
+function c3fill(){
+  fillIn(scr,{q:'婉拒他之前，先把界线默清——填空：',
+    template:'研发测量仪器属于企业/科研的事，<b>不</b>在计量行政部门职责内；我们能依法提供的是 {0} 、计量认证、组织 {1} 检定。',
+    blanks:[{accept:['检定','计量检定']},{accept:['仲裁','仲裁检定']}],
+    conceptId:'c_duty',okText:'我们做检定/认证/仲裁，不做"研发"也不"花钱发合格"。',kp:CLUE_LIB['c_duty'].body,pass:c3decide});
+}
+function c3decide(){
+  decideTo(scr,'面对主任的两个要求，正确做法是？',[
+    {t:'A. 帮他研发仪器，再"通融"出张合格证',ok:false,fav:-2,bad:'c3-corrupt',res:'<span class="rt">❌ 越界又踩红线</span>研发非职责，"花钱出合格"更是给影子检定站递刀。',kp:CLUE_LIB['c_duty'].body,then:()=>retryBtn(c3decide)},
+    {t:'B. 婉拒研发、严拒买合格；告知可走检定/认证/仲裁，并记录他的不当请托',ok:true,fav:1,rep:1,res:'<span class="rt">✅ 守住边界</span>『研发是你们的事；"合格"得真检出来。』你把这次请托记进证据墙。沈准：『懂得说"不"，也是本事。』',kp:CLUE_LIB['c_duty'].body,then:finishCase},
+    {t:'C. 研发不帮，但合格证可以照他要求开',ok:false,fav:-1,bad:'c3-soft',res:'<span class="rt">❌ 半步也不能让</span>不合格出"合格"=造假，正是你要查的事。',kp:CLUE_LIB['c_duty'].body,then:()=>retryBtn(c3decide)},
+  ],'c_duty');
+}
+
+/* ============================================================
+   案 4 · 越权的授权申请
+   ============================================================ */
+CLUE_LIB['c_auth']={t:'计量授权·4种形式',body:'①授权为法定计量检定机构 ②授权建立社会公用计量标准 ③授权对内部强检器具执行强检 ④授权承担计量标准考核、仲裁检定、新产品型式评价、标准物质定级鉴定等。不含"授权建立计量基准"。'};
+CLUE_LIB['c_authapply']={t:'授权申请去向',body:'建计量基准→国务院计量行政部门；承担新产品型式评价→省级以上；对本部门内部强检→同级；对本单位内部强检→当地县(市)级。'};
+MOLE_LIB['m4']={t:'第四块：签批栏的"贾"',body:'这份越权申请的内部签批栏，有个被涂改的姓——隐约是个"贾"字。有人想借授权拿到"发证权"。'};
+BOOM_LIB['c_auth']={q:'下列哪项不属于"计量授权"能授予的任务？',opts:[{t:'授权建立社会公用计量标准',ok:false},{t:'授权建立计量基准',ok:true},{t:'授权承担新产品型式评价',ok:false}],kp:kp('计量基准由市场监管总局统一规划建立，<b>不</b>属授权事项。')};
+
+CASES.push(function(){
+  scr.innerHTML=hud("案肆 · 越权的授权申请")+casebar()+
+    narr("受理窗口","某单位递来一份授权申请，白偏差已经盖了一半章。")+
+    line('ri','白偏差','我都快批了——这单位申请"经授权后<b>建立本单位的计量基准</b>"，合情合理对吧？')+
+    line('xue','温溯源','（按住她的手）授权能让人家干很多事……但"建计量基准"这条，对一个单位来说，对吗？而且这签批栏，被人改过。');
+  investigate(scr,{intro:'核实"授权能授哪些"、"申请递给谁"、"谁在背后"：',acts:[
+    {label:'📖 查计量授权的4种形式',hint:'授权能干啥',clue:'c_auth',
+     reveal:evid('📖 证物：授权4形式','①授权为法定计量检定机构 ②授权建立<b>社会公用计量标准</b> ③授权对内部强检器具执行强检 ④授权承担计量标准考核/仲裁检定/新产品型式评价/标准物质定级鉴定等。<b>不含"授权建立计量基准"</b>——基准由市场监管总局统一规划建立。')},
+    {label:'📖 查不同授权事项的申请去向',hint:'递给哪一级',clue:'c_authapply',
+     reveal:evid('📖 证物：申请去向','建<b>计量基准</b>→<b>国务院</b>；<b>新产品型式评价</b>→<b>省级以上</b>；<b>本部门</b>内部强检→<b>同级</b>；<b>本单位</b>内部强检→<b>当地县(市)级</b>。')},
+    {label:'🔎 查内部签批栏的涂改',hint:'物证·主线',mole:'m4',
+     reveal:molecard('物证：被涂改的"贾"','签批栏一个姓被涂改，隐约是"<b>贾</b>"字。有人想借这次违规授权，拿到"发证权"。')},
+  ]},'查清楚了，先归类',c4sort,2);
+});
+function c4sort(){
+  sortGame(scr,{q:'判断每项能否通过"计量授权"取得：',
+    cats:[{id:'y',label:'✅ 可授权'},{id:'n',label:'🚫 不可（不属授权）'}],
+    items:[
+      {t:'授权建立社会公用计量标准',cat:'y'},
+      {t:'授权为法定计量检定机构',cat:'y'},
+      {t:'授权承担新产品型式评价',cat:'y'},
+      {t:'授权"建立本单位计量基准"',cat:'n'},
+    ],conceptId:'c_auth',okText:'唯独"建计量基准"不属授权——它由市场监管总局统一规划建立。',kp:CLUE_LIB['c_auth'].body,pass:c4decide});
+}
+function c4decide(){
+  decideTo(scr,'这份"申请经授权建立本单位计量基准"的申请，错在哪？',[
+    {t:'A. 没错，盖章批准',ok:false,fav:-1,bad:'c4-auth',res:'<span class="rt">❌ 跟白偏差一起越权</span>授权任务里<b>没有"建计量基准"</b>。批了就是错授，正中贾印证下怀。',kp:CLUE_LIB['c_auth'].body,then:()=>retryBtn(c4decide)},
+    {t:'B. 错在"建计量基准"不属授权任务；可改申请"建社会公用计量标准"等合法事项',ok:true,fav:1,rep:1,res:'<span class="rt">✅ 拦下越权</span>你拦住白偏差的章，并把被涂改的"贾"字签批栏拍照存档。沈准颔首。',kp:CLUE_LIB['c_auth'].body,then:c4apply},
+    {t:'C. 错在申请递错了级别，跟基准无关',ok:false,fav:-1,res:'<span class="rt">❌ 抓错重点</span>核心是"建基准根本不属授权任务"。',kp:CLUE_LIB['c_auth'].body,then:()=>retryBtn(c4decide)},
+  ],'c_auth');
+}
+function c4apply(){
+  scr.insertAdjacentHTML('beforeend',line('mi','陆量值','那……他们改申请"承担新产品型式评价"授权，这申请该递给哪一级？我又忘了！'));
+  fillIn(scr,{q:'填空（注意：不同事项去向不同）：',
+    template:'申请"承担新产品型式评价"的授权，应向 {0} 级以上人民政府计量行政部门提出；而"建计量基准"才需向 {1} 计量行政部门申请。',
+    blanks:[{accept:['省','省级','省以上']},{accept:['国务院','国家','国务院计量行政部门']}],
+    conceptId:'c_authapply',okText:'型式评价→省级以上；建基准→国务院。',kp:CLUE_LIB['c_authapply'].body,pass:c4end});
+}
+function c4end(){
+  scr.insertAdjacentHTML('beforeend',`<button class="btn" onclick="finishCase()">归档本案 →</button>`);
+}
+
+/* ============================================================
+   案 5 · 快过期的证书
+   ============================================================ */
+CLUE_LIB['c_cert']={t:'授权证书期限',body:'有效期由授权单位规定，最长不超过5年；期满前6个月可申请继续承担；要终止须提前6个月书面报告，未经批准不得擅自终止。'};
+MOLE_LIB['m5']={t:'第五块：急着"终止"的心虚',body:'被授权单位想擅自停掉某项任务，是怕续期复核时被查出此前放水。背后有人许诺"别担心，有贾所长关照"。'};
+BOOM_LIB['c_cert']={q:'被授权单位要终止某项授权任务，规矩是？',opts:[{t:'想停就停，无需报告',ok:false},{t:'须提前6个月书面报告且经批准，不得擅自终止',ok:true},{t:'提前1个月口头通知即可',ok:false}],kp:kp('终止：提前6个月书面报告＋经批准；不得擅自终止。')};
+
+CASES.push(function(){
+  scr.innerHTML=hud("案伍 · 快过期的证书")+casebar()+
+    narr("电话铃响 · 下午","一家被授权单位急电：证书快到期想续，又想顺便终止其中一项任务，慌得不行。")+
+    line('npc','被授权单位','证书要到期了！想续！另外有一项任务我们想<b>下个月就停掉</b>，行不行？别声张……贾所长说有他关照。')+
+    line('mi','陆量值','（捂话筒）证书最长几年？提前多久续？要停又得提前多久？我全混了！还有他刚说的"贾所长"是谁？')+
+    line('bu','沈准','感情要保鲜，证书也有期限。记牢三个数。还有——他怕的不是过期，是复核。');
+  investigate(scr,{intro:'查清"三个数"，再听他为何心虚：',acts:[
+    {label:'📖 查授权证书期限与续/止规则',hint:'三个关键数',clue:'c_cert',
+     reveal:evid('📖 证物：证书期限','有效期由授权单位规定，<b>最长不超过5年</b>；期满前<b>6个月</b>可申请继续承担；要终止须<b>提前6个月</b>书面报告，<b>未经批准不得擅自终止</b>。')},
+    {label:'🔎 追问"为什么急着停某项"',hint:'物证·主线',mole:'m5',
+     reveal:molecard('物证：怕被复核查出','他想擅自停掉某项，是怕续期<b>复核</b>时查出此前放水。有人许诺"有贾所长关照"。"贾所长"=贾印证，浮出水面。')},
+  ]},'记牢了，先默三个数',c5fill,2);
+});
+function c5fill(){
+  fillIn(scr,{q:'填空（授权证书三个关键数）：',
+    template:'有效期最长不超过 {0} 年；期满前 {1} 个月可申请继续承担；要终止须提前 {2} 个月书面报告并经批准。',
+    blanks:[{accept:['5','五']},{accept:['6','六']},{accept:['6','六']}],
+    conceptId:'c_cert',okText:'5年 / 提前6个月续 / 提前6个月报终止。',kp:CLUE_LIB['c_cert'].body,pass:c5decide});
+}
+function c5decide(){
+  decideTo(scr,'你该怎么答复这家单位？',[
+    {t:'A. 看在"贾所长"面子上，让他悄悄停掉那项，不用报告',ok:false,fav:-2,bad:'c5-corrupt',res:'<span class="rt">❌ 被关系网带歪</span>终止须提前6个月书面报告且经批准；放他擅自停=帮着掩盖放水。',kp:CLUE_LIB['c_cert'].body,then:()=>retryBtn(c5decide)},
+    {t:'B. 续期按规走；要停须提前6个月书面报告且经批准，不得擅自停——并保留复核',ok:true,fav:1,rep:1,res:'<span class="rt">✅ 三个数全对，还顶住了关系</span>对方松口提交续期申请、撤回"下月就停"。复核照常——贾印证的关照失灵了。沈准：『记数字也记得这么准……我有点危险。』',kp:CLUE_LIB['c_cert'].body,then:finishCase},
+    {t:'C. 最长5年没错，但停不停随他们，不用报告',ok:false,fav:-1,bad:'c5-stop',res:'<span class="rt">❌ 漏了终止规则</span>终止须提前6个月书面报告且经批准。',kp:CLUE_LIB['c_cert'].body,then:()=>retryBtn(c5decide)},
+  ],'c_cert');
+}
+
+/* ============================================================
+   案 6 · 谁能建标准 / 仲裁（贾印证现身）
+   ============================================================ */
+CLUE_LIB['c_std']={t:'计量标准建立权限',body:'部门最高标准→同级政府计量行政部门考核合格后主管部门批准使用。企事业单位最高标准→与其主管部门同级的政府计量行政部门考核、取得考核证书后，本单位开展非强检。乡镇企业最高标准→当地县(市区)级主持考核。本区域最高社会公用标准→报上一级考核。'};
+CLUE_LIB['c_arb']={t:'仲裁检定依据',body:'县级以上计量行政部门用计量基准或社会公用计量标准进行的、以裁决为目的的检定测试；数据作处理纠纷依据，具有法律效力。'};
+MOLE_LIB['m6']={t:'第六块：贾印证施压',body:'仲裁现场，贾印证亲自露面，要你"用部门标准快速裁决"——其实想让无法律效力的数据上位，掩盖之前用假标准出的结论。'};
+BOOM_LIB['c_arb']={q:'仲裁检定要有法律效力，须用什么作依据？',opts:[{t:'任意一台工作计量标准',ok:false},{t:'计量基准或社会公用计量标准',ok:true},{t:'部门最高计量标准',ok:false}],kp:kp('仲裁依据=计量基准 或 社会公用计量标准，数据才有法律效力。')};
+
+CASES.push(function(){
+  scr.innerHTML=hud("案陆 · 谁能建这台标准")+casebar()+
+    narr("两家公司 · 撕破脸","A、B两公司为一笔贸易的计量结果吵翻，闹到计量局要『仲裁检定』。混乱中，一位西装革履的中年人踱步进来。")+
+    line('jia','贾印证','（微笑）市检定所，贾印证。新人别费劲了——用咱们<b>部门最高计量标准</b>给他们快速裁决，多省事。听我的，没错。')+
+    line('xue','温溯源','（低声）他就是"贾所长"。仲裁要有<b>法律效力</b>，得用最高级别依据。部门标准……裁不了。别被他带。')+
+    line('bu','沈准','先把"用什么裁"定了，再处理建标。贾所长，今天我盯着。');
+  investigate(scr,{intro:'查仲裁依据，顺带翻建标权限，看穿贾印证：',acts:[
+    {label:'📖 查仲裁检定的法定依据',hint:'什么才有法律效力',clue:'c_arb',
+     reveal:evid('📖 证物：仲裁依据','县级以上计量行政部门用<b>计量基准</b>或<b>社会公用计量标准</b>进行的、以裁决为目的的检定测试，数据作处理纠纷依据，<b>具有法律效力</b>。')},
+    {label:'📖 查各类计量标准的建立/考核权限',hint:'谁考核谁批准',clue:'c_std',
+     reveal:evid('📖 证物：建标权限','<b>部门最高标准</b>：同级政府计量行政部门考核→主管部门批准。<br><b>企事业单位最高标准</b>：与其主管部门同级的政府计量行政部门考核、取得考核证书→本单位非强检。<br><b>乡镇企业最高标准</b>：当地县(市区)级主持考核。<br><b>本区域最高社会公用标准</b>：报<b>上一级</b>考核。')},
+    {label:'🔎 看穿贾印证为何力推"部门标准"',hint:'物证·主线',mole:'m6',
+     reveal:molecard('物证：他想要无效力数据上位','贾印证力推部门标准，是想让<b>无法律效力</b>的数据成为裁决依据，掩盖此前用假标准出的结论。')},
+  ]},'够了，当面回他',c6decide,2);
+});
+function c6decide(){
+  decideTo(scr,'仲裁检定该用什么作依据，数据才有法律效力？',[
+    {t:'A. 计量基准 或 社会公用计量标准',ok:true,fav:1,rep:1,res:'<span class="rt">✅ 当面顶回贾印证</span>『仲裁必须用<b>计量基准</b>或<b>社会公用计量标准</b>，部门标准裁决无法律效力。』贾印证脸色一沉，拂袖而去。证据墙+1。',kp:CLUE_LIB['c_arb'].body,then:c6std},
+    {t:'B. 部门最高计量标准（听贾所长的）',ok:false,fav:-1,bad:'c6-power',res:'<span class="rt">❌ 不够硬，还被牵着走</span>部门标准裁决无法律效力。',kp:CLUE_LIB['c_arb'].body,then:()=>retryBtn(c6decide)},
+    {t:'C. 随便一台工作计量标准',ok:false,fav:-1,res:'<span class="rt">❌</span>工作标准更不行。',kp:CLUE_LIB['c_arb'].body,then:()=>retryBtn(c6decide)},
+  ],'c_arb');
+}
+function c6std(){
+  scr.insertAdjacentHTML('beforeend',line('npc','A公司','风波平息，我们想建一台"本单位使用的最高计量标准"，归谁考核？随便找个县里盖章行不行？'));
+  decideTo(scr,'企业、事业单位建"本单位最高计量标准"，由谁考核？',[
+    {t:'A. 与其主管部门同级的政府计量行政部门考核、取得考核证书后开展非强检',ok:true,fav:1,res:'<span class="rt">✅</span>取得<b>计量标准考核证书</b>后，方可在本单位开展非强制检定。',kp:CLUE_LIB['c_std'].body,then:finishCase},
+    {t:'B. 国务院计量行政部门直接考核',ok:false,fav:-1,res:'<span class="rt">❌</span>不必拔那么高，按主管部门同级走。',kp:CLUE_LIB['c_std'].body,then:()=>retryBtn(c6std)},
+    {t:'C. 企业自己内部考核即可',ok:false,fav:-1,res:'<span class="rt">❌</span>最高计量标准须经政府计量行政部门考核，不能自考自批。',kp:CLUE_LIB['c_std'].body,then:()=>retryBtn(c6std)},
+  ],'c_std');
+}
+
+/* ============================================================
+   案 7 · 缺斤少两两连击（自己算）
+   ============================================================ */
+CLUE_LIB['c_retail']={t:'零售称重',body:'对象：以重量结算的食品、金银饰品。当场按实际示值结算；核称的实际重量值与结算重量值之差不得超过规定负偏差。'};
+CLUE_LIB['c_prepack']={t:'定量包装商品',body:'单件标注与实际之差不得大于"允许短缺量"；批量平均实际含量须≥标注净含量。(零售用"负偏差"，定量包装用"允许短缺量"，别混。)'};
+MOLE_LIB['m7']={t:'第七块：同批假印秤',body:'市场多家摊位的"压秤"秤，检定合格印同出一源，可追到城东一处无名"检定点"——影子检定站的窝点近了。'};
+BOOM_LIB['c_retail']={q:'零售称重(食品/金银饰品)用哪个量判定？',opts:[{t:'允许短缺量',ok:false},{t:'规定负偏差',ok:true},{t:'最大允许误差的两倍',ok:false}],kp:kp('零售称重→负偏差；定量包装→允许短缺量。别混。')};
+
+CASES.push(function(){
+  scr.innerHTML=hud("案柒 · 缺斤少两两连击")+casebar()+
+    narr("市场监督现场 · 上午","接到两起举报。第一起：金店一杆秤称金饰被疑'压秤'；而且这杆秤的合格印，又眼熟。")+
+    line('xue','温溯源','金银饰品按重量结算，归零售称重。规矩：核称实际重量与结算重量之差，<b>不得超过规定的负偏差</b>。先把数算明白。')+
+    line('mi','陆量值','别又把"负偏差"和"允许短缺量"搞混！这是零售称重，用<b>负偏差</b>。');
+  investigate(scr,{intro:'取证后自己算：',acts:[
+    {label:'📖 查零售称重判定规则',hint:'用哪个量',clue:'c_retail',
+     reveal:evid('📖 证物：零售称重规则','对象=以重量结算的<b>食品、金银饰品</b>。当场按实际示值结算；核称实际重量值与结算重量值之差<b>不得超过规定的负偏差</b>。')},
+    {label:'🔎 调取金饰交易数据 + 查合格印',hint:'物证·主线',mole:'m7',
+     reveal:molecard('物证：交易数据 & 同批假印','<table><tr><td>结算(标称)重量</td><td>50.00 g</td></tr><tr><td>核称实际重量</td><td>49.70 g</td></tr><tr><td>规定负偏差</td><td>0.20 g</td></tr></table>该秤合格印与多摊同源，<b>可追到城东无名"检定点"</b>。')},
+  ]},'我来算',c7calc1,2);
+});
+function c7calc1(){
+  fillIn(scr,{q:'金饰：结算50.00g，核称49.70g，规定负偏差0.20g。算并判：',
+    template:'短缺 = 50.00 − 49.70 = {0} g；与负偏差0.20g相比，结论是 {1} （填"超标"或"合规"）。',
+    blanks:[{accept:['0.30','0.3','.30','.3']},{accept:['超标','超','违规','不合格','超了']}],
+    conceptId:'c_retail',okText:'0.30 > 0.20，超过规定负偏差，压秤违规。',kp:CLUE_LIB['c_retail'].body,pass:c7decide1});
+}
+function c7decide1(){
+  decideTo(scr,'金饰核称短缺0.30g、规定负偏差0.20g，怎么判？',[
+    {t:'A. 超过负偏差，判违规，依法行政处罚',ok:true,fav:1,rep:1,res:'<span class="rt">✅</span>0.30 > 0.20，违规成立。金店被责令整改并处罚；那批假印秤的窝点也锁定了。',kp:CLUE_LIB['c_retail'].body,then:c7prepack},
+    {t:'B. 差不多算了，0.3克而已',ok:false,fav:-1,bad:'c7-soft',res:'<span class="rt">❌ 放纵</span>0.30已超0.20负偏差，必须判违规。',kp:CLUE_LIB['c_retail'].body,then:()=>retryBtn(c7decide1)},
+    {t:'C. 用"允许短缺量"来判',ok:false,fav:-1,res:'<span class="rt">❌ 用错概念</span>零售称重用<b>负偏差</b>。',kp:CLUE_LIB['c_prepack'].body,then:()=>retryBtn(c7decide1)},
+  ],'c_retail');
+}
+function c7prepack(){
+  scr.insertAdjacentHTML('beforeend',
+    narr("市场监督现场 · 下午","第二起：一袋标注净含量500g的薯片，消费者投诉'不够称'。这回是定量包装商品，规矩不一样。")+
+    line('xue','温溯源','定量包装用<b>允许短缺量</b>——单件标注与实际之差，不得大于规定的允许短缺量。又是数学题，别用错词。')+
+    evid('🔎 物证：薯片','<table><tr><td>标注净含量</td><td>500 g</td></tr><tr><td>实测净含量</td><td>492 g</td></tr><tr><td>允许短缺量</td><td>9 g</td></tr></table>'));
+  fillIn(scr,{q:'薯片：标注500g，实测492g，允许短缺量9g。算并判：',
+    template:'短缺 = 500 − 492 = {0} g；与允许短缺量9g相比，结论是 {1} （填"超标"或"合规"）。',
+    blanks:[{accept:['8','8.0']},{accept:['合规','未超标','没超','合格','不违规','合格的']}],
+    conceptId:'c_prepack',okText:'8 ≤ 9，单件合规——消费者是误会。',kp:CLUE_LIB['c_prepack'].body,pass:c7decide2});
+}
+function c7decide2(){
+  decideTo(scr,'薯片短缺8g、允许短缺量9g，怎么判？',[
+    {t:'A. 8 ≤ 9，单件合规，向消费者解释清楚',ok:true,fav:1,rep:1,res:'<span class="rt">✅ 没冤枉好商家</span>8≤9符合规定。你还提醒厂家批量平均实际含量须≥标注。沈准：『不偏不倚，难得。』',kp:CLUE_LIB['c_prepack'].body,then:finishCase},
+    {t:'B. 只要不够标注就违规，立案处罚厂家',ok:false,fav:-1,bad:'c7-wrong',res:'<span class="rt">❌ 冤枉好商家</span>单件允许有不超过"允许短缺量"的短缺，8≤9合规。',kp:CLUE_LIB['c_prepack'].body,then:()=>retryBtn(c7decide2)},
+    {t:'C. 用"负偏差"来判',ok:false,fav:-1,res:'<span class="rt">❌ 又用错词</span>定量包装用<b>允许短缺量</b>。',kp:CLUE_LIB['c_prepack'].body,then:()=>retryBtn(c7decide2)},
+  ],'c_prepack');
+}
+
+/* ============================================================
+   案 8 · 新品上市与强检（找茬）
+   ============================================================ */
+CLUE_LIB['c_type']={t:'型式批准',body:'计量器具新产品=从未生产过，或对结构/材质等重大改进致性能、技术特征变更(仅改外观/外包装不算)。制造新产品必须申请型式批准=型式评价(系统检查试验、出报告)+型式的批准决定。总局管全国(进口/重要)，省级管本地区(一般)。'};
+CLUE_LIB['c_force']={t:'强制检定范围',body:'县级以上计量行政部门对：①社会公用计量标准器具 ②部门和企事业单位使用的最高计量标准器具 ③用于贸易结算、安全防护、医疗卫生、环境监测且列入强检目录的工作计量器具，实行强检。'};
+CLUE_LIB['c_seal']={t:'检定印证',body:'合格→《检定证书》《检定合格证》或加盖检定合格印；不合格→《检定结果通知书》(=检定不合格通知书)或注销原合格印证。'};
+MOLE_LIB['m8']={t:'第八块：伪造的型式批准',body:'厂商出示的"型式批准"文件是伪造的，落款单位与级别全错；牵出整条造假链。签发人——市检定所所长贾印证。身份坐实。'};
+BOOM_LIB['c_force']={q:'下列哪项属于强制检定范围？',opts:[{t:'企业一台普通工作用游标卡尺',ok:false},{t:'企事业单位使用的最高计量标准器具',ok:true},{t:'家用体温计(自用)',ok:false}],kp:kp('强检：社会公用标准、部门/企事业最高标准、列入目录的贸易结算/安全防护/医疗卫生/环境监测器具。')};
+BOOM_LIB['c_seal']={q:'周期检定不合格，应出具？',opts:[{t:'《检定合格证》',ok:false},{t:'《检定结果通知书》(或注销原合格印证)',ok:true},{t:'《校准证书》',ok:false}],kp:kp('不合格→《检定结果通知书》；合格才出《检定证书》/《检定合格证》或盖合格印。')};
+
+CASES.push(function(){
+  scr.innerHTML=hud("案捌 · 新品上市")+casebar()+
+    narr("型评窗口","一家厂商带着自研新型计量器具来报批，急着投产，还递上一份'型式批准'文件。")+
+    line('npc','厂商','我这新仪器，证都办好了，盖个章就能投产吧？另外，我厂里那台<b>最高计量标准</b>要不要强检？')+
+    line('ri','白偏差','外观改改就叫新产品啦？人家证都有了，催得急，批了让他投产呗！');
+  investigate(scr,{intro:'三件事查清：什么算新产品/型式批准、强检范围、那份"批准"真假：',acts:[
+    {label:'📖 查"新产品"定义与型式批准',hint:'几步/谁管',clue:'c_type',
+     reveal:evid('📖 证物：型式批准','<b>新产品</b>=从未生产过，或对结构/材质等<b>重大改进致性能、技术特征变更</b>(仅改外观/外包装<b>不算</b>)。制造新产品必申请<b>型式批准</b>=<b>型式评价</b>(系统检查试验出报告)+<b>型式的批准决定</b>。总局管全国，省级管本地区。')},
+    {label:'📖 查强制检定的范围',hint:'哪些必须强检',clue:'c_force',
+     reveal:evid('📖 证物：强检范围','①社会公用计量标准器具 ②部门和企事业单位使用的<b>最高计量标准器具</b> ③贸易结算、安全防护、医疗卫生、环境监测且列入强检目录的工作计量器具。')},
+    {label:'🔎 核验厂商那份"型式批准"',hint:'物证·主线',mole:'m8',
+     reveal:molecard('物证：伪造的型式批准','落款单位与级别全错，是<b>伪造</b>件。签发人——市检定所所长<b>贾印证</b>。整条造假链浮出水面，他的身份坐实。')},
+  ]},'查全了',c8decide1,2);
+});
+function c8decide1(){
+  decideTo(scr,'厂商问"盖个章就能投产吗"，正确答复是？',[
+    {t:'A. 制造新产品须先经型式批准；=型式评价+型式的批准决定，两步走完才能投产（且其"批准"系伪造）',ok:true,fav:1,rep:1,res:'<span class="rt">✅ 不被催单带乱</span>先型式评价(检查试验、出报告)，再作型式批准决定。且其文件系伪造，扣下查办。白偏差"外观改改就算新品"也被你纠正。',kp:CLUE_LIB['c_type'].body,then:c8sort},
+    {t:'B. 催得急，证又有，先盖章让他投产',ok:false,fav:-1,bad:'c8-rush',res:'<span class="rt">❌ 程序违法+采信假证</span>没合法型式批准不得投产，那份还是伪造的。',kp:CLUE_LIB['c_type'].body,then:()=>retryBtn(c8decide1)},
+    {t:'C. 外观没大改不算新产品，免批',ok:false,fav:-1,res:'<span class="rt">❌ 看错了</span>是否新品看"结构/材质重大改进致性能技术特征变更"，本案是自研新型，须批。',kp:CLUE_LIB['c_type'].body,then:()=>retryBtn(c8decide1)},
+  ],'c_type');
+}
+function c8sort(){
+  sortGame(scr,{q:'第二问：把这些器具按"是否强制检定"归类：',
+    cats:[{id:'y',label:'✅ 属强制检定'},{id:'n',label:'🚫 不属'}],
+    items:[
+      {t:'企事业单位使用的最高计量标准器具',cat:'y'},
+      {t:'社会公用计量标准器具',cat:'y'},
+      {t:'加油站贸易结算用、列入目录的加油机',cat:'y'},
+      {t:'车间一台普通工作用卡尺',cat:'n'},
+    ],conceptId:'c_force',okText:'最高标准/社会公用标准/列入目录的贸易结算等→强检；普通工作器具不强检。',kp:CLUE_LIB['c_force'].body,pass:c8hunt});
+}
+function c8hunt(){
+  scr.insertAdjacentHTML('beforeend',line('mi','陆量值','旁边那台周期检定的电子秤，结果<b>不合格</b>，可窗口居然给开了张证——你看看这张文书对不对？'));
+  huntGame(scr,{q:'第三问：圈出这张文书里"印证用错"的地方（可多处）。',hint:'器具是"不合格"的——点出与此矛盾的字句。',
+    segs:[
+      {t:'检定机构对该电子秤实施周期检定，'},
+      {t:'结论为不合格，'},
+      {t:'故签发《检定合格证》',bad:true,why:'不合格不能发《检定合格证》，应出《检定结果通知书》。'},
+      {t:'并加盖检定合格印，',bad:true,why:'不合格不得加盖检定合格印，应注销原合格印证。'},
+      {t:'准予继续使用。',bad:true,why:'不合格器具不得"准予继续使用"。'},
+    ],
+    conceptId:'c_seal',kp:CLUE_LIB['c_seal'].body,pass:c8end});
+}
+function c8end(){
+  scr.insertAdjacentHTML('beforeend',line('bu','沈准','贾印证……市检定所所长。他用伪造的批准、错发的印证，把这座城市的"合格"做成了生意。最后一案，我们摊牌。')+`<button class="btn mole" onclick="finishCase()">归档本案 →</button>`);
+}
+
+/* ============================================================
+   案 9 · 代号谜案 & 摊牌
+   ============================================================ */
+CLUE_LIB['c_spec']={t:'计量技术规范',body:'包括：国家计量检定系统表、计量检定规程、计量器具型式评价大纲、计量校准规范等。检定规程分国家/部门/地方3类。"国家测试标准"不属于。'};
+CLUE_LIB['c_code']={t:'编号规律',body:'JJG=国家计量检定规程(序号1999以下)；JJG2×××=国家计量检定系统表(2000以上)；JJF=国家计量技术规范。'};
+CLUE_LIB['c_sys']={t:'检定系统表',body:'=量值溯源等级图，只有国家一种，国务院计量行政部门组织制定/修订，建立基准的单位起草。规定：基准主要计量特性、量值传递程序方法、标准复现保存量值的不确定度、工作器具最大允许误差。全国量值都应溯源到计量基准。'};
+MOLE_LIB['m9']={t:'第九块：伪造的编号与假系统表',body:'贾印证伪造JJG/JJF编号、私造"系统表"，让全市量值"溯源"到他控制的假基准——造假帝国的根。'};
+BOOM_LIB['c_code']={q:'JJF1059.1《测量不确定度评定与表示》属于？',opts:[{t:'国家计量检定规程',ok:false},{t:'通用计量技术规范',ok:true},{t:'地方计量技术规范',ok:false}],kp:kp('JJF=国家计量技术规范；不确定度评定属"通用"。JJG才是检定规程。')};
+BOOM_LIB['c_sys']={q:'下列哪项不是国家计量检定系统表规定的内容？',opts:[{t:'量值传递的程序和方法',ok:false},{t:'企业财务报表编制规则',ok:true},{t:'工作器具的最大允许误差',ok:false}],kp:kp('系统表规定：基准特性、传递程序方法、标准不确定度、工作器具最大允许误差。')};
+
+CASES.push(function(){
+  scr.innerHTML=hud("案玖 · 代号谜案 & 摊牌")+casebar()+
+    narr("档案数字化室 · 第二节登场","全局技术文件要数字化打标签。贾印证伪造的代号文件混在其中，沈准说：这是结业大考，也是钉死他的最后一锤。")+
+    line('bu','沈准','我们干这行，本质是让全国每个量值都一级级回到源头——就像我想知道，你的心意能不能溯源到我这里。先从这些代号开始。')+
+    line('jia','贾印证','（被带到现场，仍嘴硬）证据？这些编号、系统表都是规范流程出来的，你们动我试试。')+
+    line('xue','温溯源','JJG才是检定规程，JJF是技术规范。别被他伪造的代号晃了眼。');
+  investigate(scr,{intro:'三件事厘清：技术规范含啥、JJG/JJF怎么分、系统表规定啥：',acts:[
+    {label:'📖 查"计量技术规范"包含哪些',hint:'谁是外人',clue:'c_spec',
+     reveal:evid('📖 证物：技术规范','包括：国家计量检定系统表、计量检定规程、型式评价大纲、计量校准规范等。<b>"国家测试标准"不属于</b>。检定规程分国家/部门/地方3类。')},
+    {label:'📖 查 JJG / JJF 编号规律',hint:'代号含义',clue:'c_code',
+     reveal:evid('📖 证物：编号','<b>JJG</b>=国家计量检定规程(序号1999以下)；<b>JJG2×××</b>=国家计量检定系统表(2000以上)；<b>JJF</b>=国家计量技术规范。')},
+    {label:'📖 查国家计量检定系统表规定了啥',hint:'溯源核心',clue:'c_sys',mole:'m9',
+     reveal:molecard('证物：系统表 & 贾印证的根','系统表=量值溯源等级图，<b>只有国家一种</b>，国务院计量行政部门组织制定/修订。规定：基准主要计量特性、量值传递程序方法、标准不确定度、工作器具最大允许误差。<br>贾印证<b>伪造JJG/JJF编号、私造"系统表"</b>，让全市量值"溯源"到他控制的假基准。')},
+  ]},'三关连考，开始',c9sort,3);
+});
+function c9sort(){
+  sortGame(scr,{q:'第①关：把下列条目按"是否属于计量技术规范"归类：',
+    cats:[{id:'y',label:'✅ 属技术规范'},{id:'n',label:'🚫 不属'}],
+    items:[
+      {t:'计量检定规程',cat:'y'},
+      {t:'国家计量检定系统表',cat:'y'},
+      {t:'计量器具型式评价大纲',cat:'y'},
+      {t:'"国家测试标准"',cat:'n'},
+    ],conceptId:'c_spec',okText:'检定规程/系统表/型评大纲/校准规范属之；"国家测试标准"是外人。',kp:CLUE_LIB['c_spec'].body,pass:c9code});
+}
+function c9code(){
+  scr.insertAdjacentHTML('beforeend',line('bu','沈准','第②关：贾印证这份"打标签"清单里，有一处把代号和性质对错了。圈出来。'));
+  huntGame(scr,{q:'第②关：圈出代号/分类标错的字句。',hint:'对照编号规律：JJG vs JJF，通用 vs 专用。',
+    segs:[
+      {t:'JJF1059.1《测量不确定度评定与表示》系'},
+      {t:'国家计量检定规程',bad:true,why:'JJF是国家计量技术规范，不是检定规程(那是JJG)。'},
+      {t:'；JJG196《常用玻璃量器》系'},
+      {t:'国家计量检定规程'},
+      {t:'；不确定度评定属于'},
+      {t:'专用计量技术规范',bad:true,why:'不确定度评定人人都用，属"通用"，不是专用。'},
+      {t:'。'},
+    ],conceptId:'c_code',kp:CLUE_LIB['c_code'].body,pass:c9sys});
+}
+function c9sys(){
+  scr.insertAdjacentHTML('beforeend',line('bu','沈准','最后一关。国家计量检定系统表，它规定的核心是什么？答对，你就出师了——也就能钉死他。'));
+  decideTo(scr,'第③关：下列哪项"不属于"国家计量检定系统表规定的内容？',[
+    {t:'A. 计量基准的主要计量特性',ok:false,fav:-1,res:'<span class="rt">❌ 这是它规定的</span>',kp:CLUE_LIB['c_sys'].body,then:()=>retryBtn(c9sys)},
+    {t:'B. 从基准经标准向工作器具传递量值的程序和方法',ok:false,fav:-1,res:'<span class="rt">❌ 这是它规定的</span>',kp:CLUE_LIB['c_sys'].body,then:()=>retryBtn(c9sys)},
+    {t:'C. 标准的不确定度及工作器具的最大允许误差',ok:false,fav:-1,res:'<span class="rt">❌ 这是它规定的</span>',kp:CLUE_LIB['c_sys'].body,then:()=>retryBtn(c9sys)},
+    {t:'D. 企业财务报表编制规则',ok:true,fav:2,rep:2,res:'<span class="rt">🎓 出师！</span>系统表规定基准特性、传递程序方法、标准不确定度、工作器具最大允许误差——与财务报表无关。全国量值都应溯源到计量基准。',kp:CLUE_LIB['c_sys'].body,then:c9final},
+  ],'c_sys');
+}
+function c9final(){
+  scr.insertAdjacentHTML('beforeend',
+    narr("听证会 · 摊牌","三关连过，证据墙拼齐。轮到你当面钉死贾印证。")+
+    line('jia','贾印证','你……一个实习生，凭什么？')+
+    line('bu','沈准','凭她比你懂规矩。说吧。'));
+  fillIn(scr,{q:'用证据墙三连击钉死他——默出三处造假本质（各填关键词）：',
+    template:'其一，给不合格器具盖的是 {0} 印证；其二，把"二办法"等当规章、用错 {1} ；其三，私造系统表、伪造 {2} 编号，让量值假溯源。',
+    blanks:[{accept:['假','伪造','虚假','假合格','造假']},{accept:['层级','法规层级','级别']},{accept:['jjg','jjf','jjg/jjf','jjgjjf','jjg、jjf']}],
+    conceptId:null,okText:'假印证 + 错层级 + 伪编号——三锤定音。',
+    kp:kp('这三点正好串起全章：检定印证 / 法规层级 / 技术规范编号与溯源。'),
+    pass:c9end});
+}
+function c9end(){
+  scr.insertAdjacentHTML('beforeend',
+    line('jia','贾印证','（瘫坐）……我输给了一本《计量法》。')+
+    line('bu','沈准','（只看着你）影子检定站，今天收网。剩下的话——归档之后，我私下跟你说。')+
+    `<button class="btn mole" onclick="finishCase()">收网归档 →</button>`);
+}
+
+/* ===== 启动 ===== */
+intro();
+</script>
+</body>
+</html>
